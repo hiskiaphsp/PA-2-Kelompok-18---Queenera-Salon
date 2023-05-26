@@ -1,4 +1,7 @@
-<script src="{{asset('web-assets/js/jquery.js')}}"></script>
+{{-- <script src="{{asset('web-assets/js/jquery.js')}}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{{ asset('js/method.js') }}"></script>
+
 <script src="{{asset('web-assets/js/waypoints.js')}}"></script>
 <script src="{{asset('web-assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('web-assets/js/swiper-bundle.js')}}"></script>
@@ -15,6 +18,7 @@
 <script src="{{asset('web-assets/js/meanmenu.js')}}"></script>
 <script src="{{asset('web-assets/js/main.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 @yield('script')
 <script>
 
@@ -96,4 +100,43 @@
         });
     });
 
+</script>
+<script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('js/notif-user.js') }}"></script>
+
+
+<script>
+    localStorage.setItem("route_counter_notif", "{{ route('counter_notif') }}");
+    localStorage.setItem("route_notification", "{{ route('notification.index') }}");
+</script>
+
+<script>
+    $(document).ready(function() {
+        var height = $('.navi').data('height');
+        var mobile_height = $('.navi').data('mobile-height');
+        $('#notification_items').slimScroll({
+            height: height,
+            mobileHeight: mobile_height,
+            color: '#fff',
+            alwaysVisible: true,
+            railVisible: true,
+            railColor: '#fff',
+            railOpacity: 1,
+            wheelStep: 10,
+            allowPageScroll: true,
+            disableFadeOut: false
+        });
+        $('#notification_items_top').slimScroll({
+            height: height,
+            mobileHeight: mobile_height,
+            color: '#fff',
+            alwaysVisible: true,
+            railVisible: true,
+            railColor: '#fff',
+            railOpacity: 1,
+            wheelStep: 10,
+            allowPageScroll: true,
+            disableFadeOut: false
+        });
+    });
 </script>

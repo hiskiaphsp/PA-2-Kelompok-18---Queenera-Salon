@@ -7,6 +7,8 @@ use App\Models\Booking;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
+
 use Carbon\Carbon;
 
 class BookingController extends Controller
@@ -29,7 +31,7 @@ class BookingController extends Controller
                     ->join('users', 'booking.user_id', '=', 'users.id')
                     ->where('booking.user_id', $user->id)
                     ->select('booking.*', 'services.service_name')
-                    ->get();
+                    ->paginate(10);
         return view('pages.web.booking.main',compact('booking'));
     }
 
@@ -69,12 +71,19 @@ class BookingController extends Controller
         $booking->phone_number = $request->phone_number;
         $booking->start_booking_date = Carbon::createFromFormat('m/d/Y h:i A',$request->start_booking_date);
         $booking->end_booking_date = Carbon::createFromFormat('m/d/Y h:i A',$request->end_booking_date);
-        $booking->payment_method = $request->payment_method;
+        $booking->payment_method = 'Cash';
         $booking->booking_code = $booking_code;
         $booking->booking_description = $request->booking_description;
         $booking->save();
 
-        return redirect('booking');
+        $notification = new Notification;
+        $notification->user_id = 1;
+        $notification->message = Auth::user()->name.' makes booking! ' . $booking_code;
+        $notification->type = 'success';
+        $notification->order_number = $booking_code;
+        $notification->save();
+
+        return redirect()->route('booking.index')->with('success', 'Your bookings have been added successfully');
     }
 
     /**
@@ -127,7 +136,7 @@ class BookingController extends Controller
         $booking->booking_description = $request->booking_description;
         $booking->save();
 
-        return redirect('booking');
+        return redirect()->route('booking.index')->with('success', 'Your bookings have been updated successfully');
     }
 
 
@@ -148,6 +157,6 @@ class BookingController extends Controller
         $booking->status = 'Cancelled';
         $booking->save();
 
-        return redirect('booking');
+        return redirect()->route('booking.index')->with('success', 'Your bookings have been cancelled');
     }
 }

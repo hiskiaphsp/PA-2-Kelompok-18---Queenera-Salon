@@ -27,28 +27,39 @@ class NotificationController extends Controller
             foreach ($notifications as $notification) {
                 if ($notification->type == 'success') {
                     $output .= '
+                    <div class="d-flex justify-content-center align-items-center mb-2">
                     <li class="b-l-success border-4">
                         <p>' .$notification->message. ' ' .$notification->order_number.'<span class="font-success">' . $notification->created_at->diffForHumans() . '</span></p>
                     </li>
+                        <i class="icon-trash text-danger delete-notification" data-notification-id="' . $notification->id . '" onclick="deleteNotification(' . $notification->id . ')"></i>
+                    </div>
                     ';
                 } elseif ($notification->type == 'warning') {
                     $output .= '
-                    <li class="b-l-warning border-4">
-                        <p>' .$notification->message. ' ' .$notification->order_number. '<span class="font-warning">' . $notification->created_at->diffForHumans() . '</span></p>
-                    </li>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <li class="b-l-warning border-4">
+                            <p>' .$notification->message. ' ' .$notification->order_number. '<span class="font-warning">' . $notification->created_at->diffForHumans() . '</span></p>
+                        </li>
+                        <i class="icon-trash text-danger delete-notification" data-notification-id="' . $notification->id . '" onclick="deleteNotification(' . $notification->id . ')"></i>
+                    </div>
                     ';
                 } elseif ($notification->type == 'info') {
                     $output .= '
-                    <li class="b-l-info border-4">
-                        <p>' .$notification->message. ' ' .$notification->order_number. '<span class="font-info">' . $notification->created_at->diffForHumans() . '</span></p>
-                    </li>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <li class="b-l-info border-4">
+                            <p>' .$notification->message. ' ' .$notification->order_number. '<span class="font-info">' . $notification->created_at->diffForHumans() . '</span>
+                            </p>
+                            <i class="icon-trash"></i>
+                        </li>
+                        <i class="icon-trash text-danger delete-notification" data-notification-id="' . $notification->id . '" onclick="deleteNotification(' . $notification->id . ')"></i>
+                    </div>
                     ';
                 }
             }
         } else {
             $output .= '
-            <li class="b-l-info border-4">
-                <p>' . $notification->message . '<span class="font-info">' . $notification->created_at->diffForHumans() . '</span></p>
+            <li class="b-l-info border-4 mb-2">
+                <p>No Notification<span class="font-info"></span></p>
             </li>
             ';
         }
@@ -71,5 +82,11 @@ class NotificationController extends Controller
             $notification->read = true;
             $notification->save();
         });
+    }
+
+    public function destroy($id){
+        $notification = Notification::find($id);
+        $notification->delete();
+        return back()->with('success', 'Notification deleted!');
     }
 }

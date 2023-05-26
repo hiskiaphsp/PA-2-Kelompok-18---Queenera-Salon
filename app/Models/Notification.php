@@ -14,4 +14,9 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function orderCode()
+    {
+        return $this->belongsTo(Order::class, 'order_number', 'code');
+    }
 }

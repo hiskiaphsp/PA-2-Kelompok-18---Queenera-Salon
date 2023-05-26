@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NotificationController;
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +21,12 @@ use App\Http\Controllers\Admin\NotificationController;
 */
 
 Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.admin.dashboard.main');
-    })->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::Class, 'index'])->name('dashboard');
 
     // Booking
-    Route::get('booking', [BookingController::class, 'index']);
+    Route::get('booking', [BookingController::class, 'index'])->name('booking.index');
+    Route::get('booking/create', [BookingController::class, 'create'])->name('booking.create');
     Route::put('booking/{id}/accept', [BookingController::Class, 'accept_booking'])->name('booking.accept');
     Route::put('booking/{id}/reject', [BookingController::Class, 'reject_booking'])->name('booking.reject');
     Route::delete('booking/{id}/delete', [BookingController::Class, 'delete'])->name('booking.delete');
@@ -42,13 +43,16 @@ Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function
 
     // Order
     Route::resource('order', OrderController::class);
+    Route::put('order/{id}/complete', [OrderController::Class, 'complete_order'])->name('order.complete');
     Route::put('order/{id}/accept', [OrderController::Class, 'accept_order'])->name('order.accept');
     Route::put('order/{id}/reject', [OrderController::Class, 'reject_order'])->name('order.reject');
     Route::delete('order/{id}/delete', [OrderController::Class, 'delete'])->name('order.delete');
+
 
     // Notification
     Route::get('counter', [NotificationController::class, 'counter'])->name('counter_notif');
     Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::get('notification/read', [NotificationController::class, 'markRead'])->name('notification.markRead');
+    Route::delete('notification/{id}/delete', [NotificationController::class, 'destroy'])->name('notification.destroy');
 });
 

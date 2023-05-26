@@ -19,7 +19,6 @@
                                         <th >Start Time</th>
                                         <th >End Time</th>
                                         <th>Booking Code</th>
-                                        <th>Payment Method</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -37,7 +36,6 @@
                                                 <td>{{$item->start_booking_date}}</td>
                                                 <td>{{$item->end_booking_date}}</td>
                                                 <td>{{$item->booking_code}}</td>
-                                                <td>{{$item->payment_method}}</td>
                                                 <td>{{$item->status}}</td>
                                                 <td>
                                                     @if (!$item->status == 'Cancelled')
@@ -65,7 +63,9 @@
                                     </tbody>
                             </table>
                         </div>
-
+                        <div class="mt-10">
+                            {{ $booking->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

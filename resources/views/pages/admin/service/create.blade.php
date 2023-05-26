@@ -39,20 +39,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            {{-- <div class="mb-3">
-                                <div class="col-form-label">Select</div>
-                                <select class="js-example-basic-single col-sm-12">
-                                    <optgroup label="Developer">
-                                        <option value="AL">Alabama</option>
-                                        <option value="WY">Wyoming</option>
-                                    </optgroup>
-                                    <optgroup label="Designer">
-                                        <option value="WY">Peter</option>
-                                        <option value="WY">Hanry Die</option>
-                                        <option value="WY">John Doe</option>
-                                    </optgroup>
-                                </select>
-                            </div> --}}
+
                             <div class="mb-3">
                                 <label class="col-form-label pt-0" for="service_image">Service Image</label>
                                 <input class="form-control @error('service_image') is-invalid @enderror" id="service_image" name="service_image" type="file">

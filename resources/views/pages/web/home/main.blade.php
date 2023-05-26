@@ -209,7 +209,7 @@
 
             function loadProducts() {
                 $.ajax({
-                    url: '{{ url("product/") }}',
+                    url: '{{ url("product/") }}?keyword=' + keyword ,
                     type: 'GET',
                     dataType: 'json',
                     success: function(products) {

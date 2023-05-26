@@ -64,7 +64,7 @@ class ServiceController extends Controller
         //  dd(request()->all());
         $newservice->save();
 
-        return redirect("admin/service");
+        return redirect()->route('admin.service.index')->with('success','Successfully added service');
     }
 
     /**
@@ -125,7 +125,7 @@ class ServiceController extends Controller
                 'service_price' => $request->service_price,
             ]);
         }
-        return redirect('admin/service');
+        return redirect()->route('admin.service.index')->with('success','Successfully updated service');
     }
 
     /**
@@ -140,6 +140,6 @@ class ServiceController extends Controller
         unlink($file_path);
         // dd(request()->all())
         $service->delete();
-        return redirect("admin/service");
+        return redirect()->route('admin.service.index')->with('success','Successfully deleted service');
     }
 }

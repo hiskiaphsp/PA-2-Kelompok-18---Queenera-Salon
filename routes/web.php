@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\OrderController;
+use App\Http\Controllers\Web\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,16 +24,17 @@ use App\Http\Controllers\Web\OrderController;
 require __DIR__.'/admin.php';
 Route::group(['domain'=>''],function(){
     Route::get('/', [DashboardController::class, 'index'])->name('home');
-
+    Route::get('403', function () {
+            return view('pages.error.403');
+        })->name('403');
+    Route::get('403', function () {
+            return view('pages.error.404');
+        })->name('403');
     Route::middleware('guest')->group(function (){
-         Route::get('login', function () {
-            return view('pages.auth.login');
-        })->name('login');
-        Route::get('/register', function () {
-            return view('pages.auth.register');
-        });
-        Route::post('/do_register', [AuthController::class, 'register']);
-        Route::post('/do_login', [AuthController::class, 'login']);
+        Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+        Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+        Route::post('/register', [AuthController::class, 'do_register'])->name('auth.do_register');
+        Route::post('/login', [AuthController::class, 'do_login'])->name('auth.do_login');
     });
 
     Route::middleware('auth')->group(function(){
@@ -41,6 +43,7 @@ Route::group(['domain'=>''],function(){
 
     // Product
     Route::resource('product', ProductController::Class);
+    Route::get('/product/search', [ProductController::class, 'search'])->name('product.search');
 
     // Cart
     Route::post('product/add-to-cart', [ProductController::Class, 'addToCart'])->name('product.addToCart')->middleware('auth');
@@ -60,10 +63,15 @@ Route::group(['domain'=>''],function(){
     Route::put('user/{id}/update', [ProfileController::Class, 'update'])->name('user.profile.update');
 
     // Order
-    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('order', [OrderController::class, 'index'])->name('order.index');
     Route::get('order/{id}/show', [OrderController::class, 'show'])->name('order.show');
     Route::put('order/{id}/cancel', [OrderController::Class, 'cancelOrder'])->name('order.cancel');
     Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout');
+
+    // Notification
+    Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('notification/counter', [NotificationController::class, 'counter'])->name('counter_notif');
+    Route::delete('notification/{id}/delete', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
 
 });

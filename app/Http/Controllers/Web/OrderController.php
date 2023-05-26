@@ -31,7 +31,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->order_status = 'Cancelled';
         $order->save();
-        return redirect('order');
+        return redirect()->route('cart.index')->with('success', 'Successfully canceled order');
     }
 
     public function show($id)
@@ -78,7 +78,7 @@ class OrderController extends Controller
 
         // Buat data order baru
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // set karakter yang digunakan
-        $order_number = 'QS' . substr(str_shuffle($characters), 0, 14);
+        $order_number = 'QS' . substr(str_shuffle($characters), 0, 10);
 
         $request->validate([
             'payment_method' =>'required',
@@ -128,7 +128,7 @@ class OrderController extends Controller
         // Kosongkan keranjang belanja
         session()->forget('cart.'.$userId);
 
-        return redirect('cart');
+        return redirect()->route('cart.index')->with('success', 'Your order has been created');
     }
 
     public function callback(Request $request){
@@ -140,9 +140,10 @@ class OrderController extends Controller
                 if ($order) {
                     $order->update(['order_status' => 'Paid']);
                     // Pesanan berhasil diperbarui dengan status "Paid"
+                    return redirect()->route('order.index')->with('success', 'Your order has been paid');
                 }else
                 {
-                    return "error";
+                    return redirect()->route('order.index')->with('error', 'The payment is error');
                 }
             }
         // }

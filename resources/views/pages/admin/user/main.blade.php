@@ -1,4 +1,4 @@
-<x-admin-layout title="Booking">
+<x-admin-layout title="User">
     @section('css')
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">

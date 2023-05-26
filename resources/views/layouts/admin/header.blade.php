@@ -33,7 +33,7 @@
 
             </a>
           </div>
-          <div class="onhover-show-div notification-dropdown">
+          <div class="onhover-show-div notification-dropdown" style="width: 20rem">
             <h6 class="f-18 mb-0 dropdown-title">Notitications</h6>
             {{-- Notification --}}
             <ul id="notification_items">

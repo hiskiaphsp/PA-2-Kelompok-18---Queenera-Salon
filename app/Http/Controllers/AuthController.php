@@ -12,7 +12,18 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+
+    public function login()
+    {
+        return view('pages.auth.login');
+    }
+
+    public function register()
+    {
+        return view('pages.auth.register');
+    }
+
+    public function do_login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required',
@@ -37,7 +48,7 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request)
+    public function do_register(Request $request)
     {
          $validatedData = $request->validate([
             'email' =>'required|email|unique:users',
@@ -62,6 +73,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('auth.login');
     }
 }

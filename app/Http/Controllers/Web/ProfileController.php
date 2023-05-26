@@ -33,6 +33,6 @@ class ProfileController extends Controller
 
         $user->update($validatedData);
 
-        return back();
+        return back()->with('success', 'User updated successfully');
     }
 }

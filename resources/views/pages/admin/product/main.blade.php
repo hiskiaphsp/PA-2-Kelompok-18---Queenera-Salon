@@ -20,15 +20,14 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-end mb-3">
-                            <a class="btn btn-primary" href="{{ url('/admin/product/create') }}">Add Product</a>
+                        <a class="btn btn-primary" href="{{ route('admin.product.create') }}">Add Product</a>
                         </div>
-                        <div class="dt-ext table-responsive">
+                        <div class="table-responsive user-datatable">
                             <table class="display"  id="export-button">
                                 <thead>
                                     <tr>
                                         <th>Product Name</th>
                                         <th>Description</th>
-                                        {{-- <th>Category</th> --}}
                                         <th>Stock</th>
                                         <th>SKU</th>
                                         <th>Price</th>
@@ -46,8 +45,11 @@
                                         <td>{{$item->product_price}}</td>
                                         <td>
                                             <ul class="action">
-                                                <li class="edit"> <a href="{{route('admin.product.edit', $item->id)}}"><i
-                                                            class="icon-pencil-alt"></i></a></li>
+                                                <li class="edit">
+                                                    <a href="{{route('admin.product.edit', $item->id)}}">
+                                                        <i class="icon-pencil-alt"></i>
+                                                    </a>
+                                                </li>
                                                 <li class="delete">
                                                     <a href="{{route('admin.product.destroy', $item->id)}}" onclick="event.preventDefault(); if(confirm('Are you sure?')) { document.getElementById('delete-form-{{ $item->id }}').submit(); }"><i class="icon-trash"></i>
                                                     </a>
@@ -64,9 +66,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                         <th>Product Name</th>
+                                        <th>Product Name</th>
                                         <th>Description</th>
-                                        {{-- <th>Category</th> --}}
                                         <th>Stock</th>
                                         <th>SKU</th>
                                         <th>Price</th>

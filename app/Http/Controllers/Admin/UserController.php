@@ -52,7 +52,7 @@ class UserController extends Controller
         $user = User::create($validatedData);
         $user->assignRole('customer');
 
-        return redirect('admin/user');
+        return redirect()->route('admin.user.index')->with('success','Successfully added user');
     }
 
     /**
@@ -101,7 +101,7 @@ class UserController extends Controller
 
         $user->update($validatedData);
 
-        return redirect('admin/user');
+        return redirect()->route('admin.user.index')->with('success','Successfully updated user');
     }
 
 
@@ -125,6 +125,6 @@ class UserController extends Controller
 
         $user->syncRoles($role);
 
-        return redirect('admin/user');
+        return redirect()->route('admin.user.index')->with('success', $user->name. ' is ' .$newRole. ' now');
     }
 }

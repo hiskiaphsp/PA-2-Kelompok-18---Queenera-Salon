@@ -1,6 +1,14 @@
 <x-admin-layout title="Dashboard">
+
     @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/app.css') }}">
+    @endsection
+    @section('breadcrumb-title')
+    <h3>Dashboard</h3>
+    @endsection
+
+    @section('breadcrumb-items')
+    <li class="breadcrumb-item">Dashboard</li>
     @endsection
         <div class="container-fluid">
             <div class="row size-column">
@@ -8,26 +16,14 @@
                     <div class="row">
                         <div class="col-xxl-5 col-md-7 box-col-7">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card o-hidden">
-                                        <div class="card-body balance-widget"><span class="f-w-500 f-light">Total Balance</span>
-                                            <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22">$<span class="counter">245,154.00
-                                                </span><span class="f-light f-14 f-w-400 ms-1">this month</span></h4><a
-                                                class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="#">Tap
-                                                Up Balance</a>
-                                            <div class="mobile-right-img"><img class="left-mobile-img"
-                                                    src="{{ asset('assets/images/dashboard-2/widget-img.png') }}" alt=""><img
-                                                    class="mobile-img" src="{{ asset('assets/images/dashboard-2/mobile.gif') }}"
-                                                    alt="mobile with coin"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="card small-widget">
-                                        <div class="card-body primary"> <span class="f-light">New Orders</span>
+                                <div class="col-sm-6">
+                                    <div class="card small-widget mb-sm-0">
+                                        <div class="card-body primary"> <span class="f-light">Orders Complete</span>
                                             <div class="d-flex align-items-end gap-1">
-                                                <h4>2,435</h4><span class="font-primary f-12 f-w-500"><i
-                                                        class="icon-arrow-up"></i><span>+50%</span></span>
+                                                <h4>{{$totalOrderComplete}}</h4>
+                                                <span class="font-primary f-12 f-w-500">
+                                                    {{-- <i class="icon-arrow-up"></i><span>+50%</span> --}}
+                                                </span>
                                             </div>
                                             <div class="bg-gradient">
                                                 <svg class="stroke-icon svg-fill">
@@ -39,10 +35,12 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="card small-widget">
-                                        <div class="card-body warning"><span class="f-light">New Customers</span>
+                                        <div class="card-body success"><span class="f-light">Total User</span>
                                             <div class="d-flex align-items-end gap-1">
-                                                <h4>2,908</h4><span class="font-warning f-12 f-w-500"><i
-                                                        class="icon-arrow-up"></i><span>+20%</span></span>
+                                                <h4>{{$totalUser}}</h4>
+                                                <span class="font-info f-12 f-w-500">
+                                                    {{-- <i class="icon-arrow-up"></i><span>+20%</span> --}}
+                                                </span>
                                             </div>
                                             <div class="bg-gradient">
                                                 <svg class="stroke-icon svg-fill">
@@ -54,14 +52,16 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="card small-widget">
-                                        <div class="card-body secondary"><span class="f-light">Average Sale</span>
+                                        <div class="card-body warning"><span class="f-light">Total Order</span>
                                             <div class="d-flex align-items-end gap-1">
-                                                <h4>$389k</h4><span class="font-secondary f-12 f-w-500"><i
-                                                        class="icon-arrow-down"></i><span>-10%</span></span>
+                                                <h4>{{$totalOrder}}</h4>
+                                                <span class="font-warning f-12 f-w-500">
+                                                    {{-- <i class="icon-arrow-up"></i><span>+20%</span> --}}
+                                                </span>
                                             </div>
                                             <div class="bg-gradient">
                                                 <svg class="stroke-icon svg-fill">
-                                                    <use href="{{ asset('assets/svg/icon-sprite.svg#sale') }}"></use>
+                                                    <use href="{{ asset('assets/svg/icon-sprite.svg#bag') }}"></use>
                                                 </svg>
                                             </div>
                                         </div>
@@ -69,10 +69,10 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="card small-widget">
-                                        <div class="card-body success"><span class="f-light">Gross Profit</span>
+                                        <div class="card-body secondary"><span class="f-light">Order Amount</span>
                                             <div class="d-flex align-items-end gap-1">
-                                                <h4>$3,908</h4><span class="font-success f-12 f-w-500"><i
-                                                        class="icon-arrow-up"></i><span>+80%</span></span>
+                                                <h6>Rp. {{number_format($totalAmount, 2)}}</h6>
+                                                {{-- <span class="font-success f-12 f-w-500"><i class="icon-arrow-up"></i><span>+80%</span></span> --}}
                                             </div>
                                             <div class="bg-gradient">
                                                 <svg class="stroke-icon svg-fill">

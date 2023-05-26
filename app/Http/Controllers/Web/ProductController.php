@@ -19,18 +19,20 @@ class ProductController extends Controller
     {
         $userId = Auth::id();
         $cart = session()->get('cart', []);
+        $keyword = $request->input('keyword');
 
-        $products = Product::all();
-
-        foreach ($products as $product) {
-            $product->price_formatted = 'Rp ' . number_format($product->product_price, 2, ',', '.');
+        if ($keyword) {
+            $products = Product::where('product_name', 'like', '%' . $keyword . '%')
+                ->latest()
+                ->paginate(9);
+        } else {
+            $products = Product::latest()->paginate(9);
         }
-        if ($request->ajax()) {
-            return response()->json($products);
-        }
-        return view('pages/web/product/main', compact('cart'));
 
+        return view('pages.web.product.main', compact('cart', 'products'));
     }
+
+
 
     public function loadCart()
     {
@@ -167,7 +169,7 @@ class ProductController extends Controller
 
         return back();
     }
-        public function checkout_product(Request $request)
+    public function checkout_product(Request $request)
     {
         // Ambil data dari keranjang belanja
         $userId = Auth::id();
@@ -214,7 +216,7 @@ class ProductController extends Controller
         // Kosongkan keranjang belanja
         session()->forget('cart.'.$userId);
 
-        return redirect('order');
+        return redirect()->route('order.index')->with('success', 'You successfully checkout the order');
     }
 
 }

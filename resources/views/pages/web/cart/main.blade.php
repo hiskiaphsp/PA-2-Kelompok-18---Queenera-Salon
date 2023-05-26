@@ -78,35 +78,35 @@
                             @endphp
                             @endforeach
                             @if (!empty(session('cart')))
-                            <div class="col-md-5 ">
-                                <div class="col-lg-12 mt-20 mb-20">
-                                <form id="checkout-form" method="POST" action="{{ route('checkout') }}">
-                                @csrf
-                                    <label for="payment_method" class="mx-2">Payment Method<span class="text-danger">*</span> </label>
-                                    <div class="ml-2  tpform__select">
+                                <div class="col-md-5 ">
+                                    <div class="col-lg-12 mt-20 mb-20">
+                                    <form id="checkout-form" method="POST" action="{{ route('checkout') }}">
+                                    @csrf
+                                        <label for="payment_method" class="mx-2">Payment Method<span class="text-danger">*</span> </label>
+                                        <div class="ml-2  tpform__select">
 
-                                        <select name="payment_method" class="@error('payment_method') is-invalid @enderror" id='payment_method'>
-                                            <option value="" selected disabled>Please choose Payment Method</option>
-                                            <option value="Cash">Cash</option>
-                                            <option value="Transfer">Transfer</option>
-                                        </select>
-                                        @error('payment_method')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
+                                            <select name="payment_method" class="@error('payment_method') is-invalid @enderror" id='payment_method'>
+                                                <option value="" selected disabled>Please choose Payment Method</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Transfer">Transfer</option>
+                                            </select>
+                                            @error('payment_method')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
 
+                                        </div>
+                                    </div>
+                                        <div class="cart-page-total">
+                                        <h2>Cart totals</h2>
+                                        <ul class="mb-20">
+                                            <li>Total <span>Rp. {{number_format($total, 2, ',', '.')}}</span></li>
+                                        </ul>
+                                        <button class="tp-btn tp-color-btn banner-animation" type="submit">Checkout</button>
+                                    </form>
                                     </div>
                                 </div>
-                                    <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
-                                    <ul class="mb-20">
-                                        <li>Total <span>Rp. {{number_format($total, 2, ',', '.')}}</span></li>
-                                    </ul>
-                                    <button class="tp-btn tp-color-btn banner-animation" type="submit">Checkout</button>
-                                </form>
-                                </div>
-                            </div>
                             @endif
                         </div>
                 </div>

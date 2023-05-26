@@ -70,7 +70,7 @@ class ProductController extends Controller
         //  dd(request()->all());
         $newProduct->save();
 
-        return redirect("admin/product");
+        return redirect()->route('admin.product.index')->with('success', 'Successfully Added Product');
     }
 
     /**
@@ -136,7 +136,7 @@ class ProductController extends Controller
                 'product_stock' => $request->product_stock,
             ]);
         }
-        return redirect('admin/product');
+        return redirect()->route('admin.product.index')->with('success','Successfully updated product');
     }
 
     /**
@@ -150,7 +150,7 @@ class ProductController extends Controller
         $file_path = public_path('images/'.$product->product_image);
         unlink($file_path);
         $product->delete();
-        return redirect("admin/product");
+        return redirect()->route('admin.product.index')->with('success','Successfully deleted product');
 
     }
 }

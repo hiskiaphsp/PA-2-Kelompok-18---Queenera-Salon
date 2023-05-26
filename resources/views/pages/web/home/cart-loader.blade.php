@@ -43,9 +43,5 @@
         </div>
         <div class="tpcart__checkout-btn">
         <a class="tpcart-btn mb-10" href="{{url('cart')}}">View Cart</a>
-        <a class="tpcheck-btn"  href="{{ route('checkout') }}" onclick="event.preventDefault(); document.getElementById('checkout-form').submit();">Checkout</a>
-        <form id="checkout-form" method="POST" action="{{ route('checkout') }}" style="display: none;">
-            @csrf
-        </form>
         </div>
     </div>

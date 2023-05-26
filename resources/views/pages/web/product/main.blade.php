@@ -4,7 +4,7 @@
 
         {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     @endsection
-          <main>
+    <main>
 
          <div class="breadcrumb__area grey-bg pt-5 pb-5">
             <div class="container">
@@ -179,22 +179,18 @@
                               </div>
                               <div class="col-sm-4">
                                  <div class="product__navtabs d-flex justify-content-end align-items-center">
-                                    <div class="tp-shop-selector">
-                                       <select style="display: none;">
-                                          <option>Default sorting</option>
-                                          <option>Show 14</option>
-                                          <option>Show 08</option>
-                                          <option>Show 20</option>
-                                       </select>
-                                       <div class="nice-select" tabindex="0">
-                                          <span class="current">Default sorting</span>
-                                          <ul class="list">
-                                             <li data-value="Show 12" class="option selected">Default sorting</li>
-                                             <li data-value="Show 14" class="option">Short popularity</li>
-                                             <li data-value="Show 08" class="option">Show 08</li>
-                                             <li data-value="Show 20" class="option">Show 20</li>
-                                          </ul>
-                                       </div>
+                                    <div class="tpsideinfo__search tp-shop-selector">
+                                        <form action="{{ route('product.index') }}" method="GET" class="form-inline">
+                                            <input type="text" name="keyword" class="form-control" placeholder="Search" value="{{ isset($keyword) ? $keyword : '' }}">
+                                            <button type="submit"><i class="icon-search"></i></button>
+                                        </form>
+                                       {{-- <div class="nice-select" tabindex="0">
+                                          <form action="{{ route('product.index') }}" method="GET" class="form-inline">
+                                            <div class="form-group">
+                                                <input type="text" name="keyword" class="form-control" placeholder="Search" value="{{ isset($keyword) ? $keyword : '' }}">
+                                            </div>
+                                        </form>
+                                       </div> --}}
                                     </div>
                                  </div>
                               </div>
@@ -203,31 +199,16 @@
                         <div class="tab-content" id="nav-tabContent">
                            <div class="tab-pane fade show active whight-product" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
 
-                              <div class="row row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item" id="data-product">
+                              <div class="row row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item" id="list-result">
+                                @include('pages.web.product.load')
 
                               </div>
                            </div>
                         </div>
-                        <div class="basic-pagination text-center mt-35">
-                           <nav>
-                              <ul>
-                                 <li>
-                                    <span class="current">1</span>
-                                 </li>
-                                 <li>
-                                    <a href="#">2</a>
-                                 </li>
-                                 <li>
-                                    <a href="#">3</a>
-                                 </li>
-                                 <li>
-                                    <a href="#">
-                                       <i class="icon-chevrons-right"></i>
-                                    </a>
-                                 </li>
-                              </ul>
-                            </nav>
-                        </div>
+                     </div>
+                     <div class="d-flex justify-content-center mt-10">
+                        {{-- {{ $products->links('pagination::bootstrap-4') }} --}}
+                        {{ $products->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
                      </div>
                   </div>
                </div>
@@ -302,76 +283,8 @@
          </section>
          <!-- feature-area-end -->
 
-      </main>
+    </main>
       @section('script')
-    <script>
-        window.baseUrl = '{{ url('/') }}';
-    </script>
-    <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            function loadProducts() {
-                $.ajax({
-                    url: '{{ url("product/") }}',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(products) {
-                        let html = '';
-                        $.each(products, function(index, product) {
-                            html += `
-                                <div class="col" key=${product.id}>
-                                    <div class="tpproduct p-relative mb-20">
-                                        <div class="tpproduct__thumb p-relative text-center">
-                                            <a class="aspect-ratio" href="#"><img src="${window.baseUrl}/images/${product.product_image}" alt="" class="img-fluid" style="height:200px"></a>
-                                            <div class="tpproduct__info bage">
-                                            </div>
-                                            <div class="tpproduct__shopping">
-                                                <a  data-product-id="${ product.id }" class="add-to-cart tpproduct__shopping-wishlist" href="#"><i class="icon-cart"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="tpproduct__content">
-                                            <span class="tpproduct__content-weight">
-                                                <a href="#">Salon</a>
-                                                <a href="#"></a>
-                                            </span>
-                                            <h4 class="tpproduct__title">
-                                                <a href="shop-details-top-.html">${ product.product_name }</a>
-                                            </h4>
-                                            <div class="tpproduct__rating mb-5">
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                            </div>
-                                            <div class="tpproduct__price">
-                                                <span>${product.price_formatted}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        $('#data-product').html(html);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            }
-            loadProducts(); // memanggil fungsi loadProducts() secara otomatis
-
-            // fungsi untuk melakukan auto load setiap 5 detik
-            setInterval(function() {
-                loadProducts();
-            }, 5000);
-        });
-    </script>
 
       @endsection
 </x-web-layout>

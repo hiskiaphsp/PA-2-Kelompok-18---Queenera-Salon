@@ -27,39 +27,67 @@
                     </div>
                     </div>
                     <div class="col-xl-3">
-                    <div class="header__info d-flex align-items-center">
-                        <div class="header__info-search tpcolor__purple ml-10">
-                            <button class="tp-search-toggle"><i class="icon-search"></i></button>
-                        </div>
-                        @auth
-                        <nav id="mobile-menu" class="header__menu main-menu">
-                            <ul>
-                                <li class="has-dropdown">
-                                    <div class="header__info-user tpcolor__yellow ml-10">
-                                        <a href="#"><i class="icon-user"></i></a>
+                        <div class="header__info d-flex align-items-center">
+                            @auth
+                            <div class="dropdown topbar-head-dropdown header__info-cart tpcolor__oasis ml-10 ">
+                                <a type="button" href="javascript:;" onclick="tombol_notif();" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell-o"></i><span id="jmlh-notif"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end p-0 " style="width: 25rem" aria-labelledby="page-header-notifications-dropdown">
+                                    <div class="dropdown-head bg-success bg-pattern rounded-top">
+                                        <div class="p-3">
+                                            <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <h6 class="m-0 fs-16 fw-semibold text-white">Notifications</h6>
+                                                    </div>
+                                                    <div class="col-auto dropdown-tabs">
+                                                    </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{route('user.profile', Auth::user()->id)}}">Profile</a></li>
-                                        <li><a href="{{url('/booking')}}">My Booking</a></li>
-                                        <li><a href="{{url('order')}}">My Order</a></li>
-                                        <li><a href="{{url('/logout')}}">Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                        @else
-                            <div class="header__info-user tpcolor__yellow ml-10">
-                            <a href="{{url('/login')}}"><i class="icon-user"></i></a>
+
+                                    <div class="tab-content" id="notificationItemsTabContent">
+                                        <div class="tab-panel active" id="all-noti-tab" role="tabpanel">
+                                            <div data-simplebar class="">
+                                                <div id="notification_items">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <nav id="mobile-menu" class="header__menu main-menu">
+                                <ul>
+
+                                    <li class="has-dropdown">
+                                        <div class="header__info-user tpcolor__yellow ml-10">
+                                            <a href="#"><i class="icon-user"></i></a>
+                                        </div>
+                                        <ul class="sub-menu">
+                                            <li><a href="{{route('user.profile', Auth::user()->id)}}">Profile</a></li>
+                                            <li><a href="{{url('/booking')}}">My Booking</a></li>
+                                            <li><a href="{{url('order')}}">My Order</a></li>
+                                            <li><a href="{{url('/logout')}}">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
+                                <button><i><img src="{{asset('web-assets/img/icon/cart-1.svg')}}" alt=""></i>
+                                    @if (!empty(session('cart')))
+                                        <span></span>
+                                    @endif
+                                </button>
+                            </div>
+                            @else
+                                <div class="header__info-user tpcolor__yellow ml-10">
+                                <a href="{{url('/login')}}"><i class="icon-user"></i></a>
+                            </div>
+                            @endauth
+
                         </div>
-                        @endauth
-                        <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
-                            <button><i><img src="{{asset('web-assets/img/icon/cart-1.svg')}}" alt=""></i>
-                                @if (!empty(session('cart')))
-                                    <span></span>
-                                @endif
-                            </button>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -68,18 +96,11 @@
 
         <!-- header-search -->
         <div class="tpsearchbar tp-sidebar-area">
-        <button class="tpsearchbar__close"><i class="icon-x"></i></button>
         <div class="search-wrap text-center">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-6 pt-100 pb-100">
-                        <h2 class="tpsearchbar__title">What Are You Looking For?</h2>
-                        <div class="tpsearchbar__form">
-                            <form action="#">
-                                <input type="text" name="search" placeholder="Search Product...">
-                                <button class="tpsearchbar__search-btn"><i class="icon-search"></i></button>
-                            </form>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -101,6 +122,7 @@
                 </div>
             </div>
         </div>
+
         <div class="cartbody-overlay"></div>
         <!-- header-cart-end -->
 
@@ -109,29 +131,71 @@
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-4 col-3 col-sm-3">
-                    <div class="mobile-menu-icon">
-                    <button class="tp-menu-toggle"><i class="icon-menu1"></i></button>
-                    </div>
+                    
                 </div>
                 <div class="col-lg-4 col-md-4 col-6 col-sm-4">
                     <div class="header__logo text-center">
-                    <a href="index.html"><img src="{{asset('web-assets/img/logo/logo.png')}}" alt="logo"></a>
+                    <a href=""><img src="{{asset('web-assets/img/logo/logo.png')}}" alt="logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-3 col-sm-5">
                     <div class="header__info d-flex align-items-center">
-                    <div class="header__info-search tpcolor__purple ml-10 d-none d-sm-block">
-                        <button class="tp-search-toggle"><i class="icon-search"></i></button>
-                    </div>
-                    <div class="header__info-user tpcolor__yellow ml-10 d-none d-sm-block">
-                        <a href="#"><i class="icon-user"></i></a>
-                    </div>
-                    <div class="header__info-wishlist tpcolor__greenish ml-10 d-none d-sm-block">
-                        <a href="#"><i class="icon-heart icons"></i></a>
-                    </div>
+                        @auth
+                        <div class="dropdown topbar-head-dropdown header__info-cart tpcolor__oasis ml-10 ">
+                            <a type="button" href="javascript:;" onclick="tombol_notif();" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell-o"></i><span id="top-notification-number"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end p-0 " style="width: 25rem" aria-labelledby="page-header-notifications-dropdown">
+                                <div class="dropdown-head bg-success bg-pattern rounded-top">
+                                    <div class="p-3">
+                                        <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h6 class="m-0 fs-16 fw-semibold text-white">Notifications</h6>
+                                                </div>
+                                                <div class="col-auto dropdown-tabs">
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-content" id="notificationItemsTabContent">
+                                    <div class="tab-pane fade show active" id="all-noti-tab" role="tabpanel">
+                                        <div data-simplebar style="max-height: 300px" class="">
+                                            <div class="text-reset text-wrap position-relative" id="notification_items_top">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav id="mobile-menu" class="header__menu main-menu">
+                            <ul>
+                                <li class="has-dropdown">
+                                    <div class="header__info-user tpcolor__yellow ml-10">
+                                        <a href="#"><i class="icon-user"></i></a>
+                                    </div>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{route('user.profile', Auth::user()->id)}}">Profile</a></li>
+                                        <li><a href="{{url('/booking')}}">My Booking</a></li>
+                                        <li><a href="{{url('order')}}">My Order</a></li>
+                                        <li><a href="{{url('/logout')}}">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                        @else
+                            <div class="header__info-user tpcolor__yellow ml-10">
+                                <a href="{{url('/login')}}"><i class="icon-user"></i></a>
+                            </div>
+                        @endauth
                     <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
                         <button><i><img src="{{asset('web-assets/img/icon/cart-1.svg')}}" alt=""></i>
-                            <span>5</span>
+                            @if (!empty(session('cart')))
+                                <span></span>
+                            @endif
                         </button>
                     </div>
                     </div>
@@ -144,14 +208,6 @@
 
         <!-- sidebar-menu-area -->
         <div class="tpsideinfo">
-        <button class="tpsideinfo__close">Close<i class="fal fa-times ml-10"></i></button>
-        <div class="tpsideinfo__search text-center pt-35">
-            <span class="tpsideinfo__search-title mb-20">What Are You Looking For?</span>
-            <form action="#">
-                <input type="text" placeholder="Search Products...">
-                <button><i class="icon-search"></i></button>
-            </form>
-        </div>
         <div class="tpsideinfo__nabtab">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -168,14 +224,12 @@
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
                     <div class="tpsidebar-categories">
                     <ul>
-                        <li><a href="shop-details.html">Dairy Farm</a></li>
-                        <li><a href="shop-details.html">Healthy Foods</a></li>
-                        <li><a href="shop-details.html">Lifestyle</a></li>
-                        <li><a href="shop-details.html">Organics</a></li>
-                        <li><a href="shop-details.html">Photography</a></li>
-                        <li><a href="shop-details.html">Shopping</a></li>
-                        <li><a href="shop-details.html">Tips & Tricks</a></li>
+                        @auth
                         <li><a href="{{url('/logout')}}"><i data-feather="log-out"> </i><span>Log Out</span></a></li>
+                        @else
+                        <li><a href="{{url('/login')}}"><i data-feather="log-out"> </i><span>Log In</span></a></li>
+
+                        @endauth
                     </ul>
                     </div>
                 </div>
@@ -200,7 +254,7 @@
 
         @else
         <div class="tpsideinfo__account-link">
-            <a href="{{url('/login')}}"><i class="icon-user icons"></i> Loginr</a>
+            <a href="{{route('auth.login')}}"><i class="icon-user icons"></i> Loginr</a>
         </div>
         @endauth
 

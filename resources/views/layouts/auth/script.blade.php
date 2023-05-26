@@ -22,7 +22,7 @@
     // Menampilkan toast dengan pesan error
     toastr.options = {
         'positionClass': 'toast-top-right',
-        'background': 'linear-gradient(to right, #ff4d4d, #ff0000)',
+        'backgroundColor': 'linear-gradient(to right, #ff4d4d, #ff0000)',
         'progressBar': true,
         "closeButton": true
     };

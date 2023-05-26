@@ -19,13 +19,14 @@ class BookingController extends Controller
                     ->get();
         return view('pages.admin.booking.main',compact('booking'));
     }
+
     public function accept_booking($id)
     {
         $booking = Booking::find($id);
         $booking->status = 'Accepted';
         $booking->save();
 
-        return redirect('admin/booking');
+        return redirect()->route('admin.booking.index')->with('success','Successfully updated status booking');
     }
 
     public function reject_booking($id)
@@ -34,13 +35,13 @@ class BookingController extends Controller
         $booking->status = 'Rejected';
         $booking->save();
 
-        return redirect('admin/booking');
+        return redirect()->route('admin.booking.index')->with('success','Successfully updated status booking');
     }
     public function delete($id)
     {
         $booking = Booking::find($id);
         $booking->delete();
 
-        return redirect('admin/booking');
+        return redirect()->route('admin.booking.index')->with('success','Successfully deleted booking');
     }
 }
