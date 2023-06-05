@@ -29,6 +29,9 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <a href="{{route('password.request')}}">Forgot Password?</a>
+                        </div>
                         <div class="form-group mt-20">
 
                             <div class="d-flex justify-content-end">

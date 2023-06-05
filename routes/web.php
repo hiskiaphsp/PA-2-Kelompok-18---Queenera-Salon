@@ -10,6 +10,9 @@ use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\InvoiceController;
+use Laravel\Fortify\Fortify;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,11 @@ use App\Http\Controllers\Web\NotificationController;
 */
 require __DIR__.'/admin.php';
 Route::group(['domain'=>''],function(){
+
+    Route::get('test', function(){
+        return view('layouts.invoice.print');
+    });
+    Route::get('invoice/{id}/show', [InvoiceController::class, 'show'])->name('invoice.show');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('403', function () {
             return view('pages.error.403');
@@ -35,6 +43,25 @@ Route::group(['domain'=>''],function(){
         Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
         Route::post('/register', [AuthController::class, 'do_register'])->name('auth.do_register');
         Route::post('/login', [AuthController::class, 'do_login'])->name('auth.do_login');
+
+        // Rute untuk menampilkan halaman lupa password
+        Route::get('/forgot-password', function () {
+            return view('pages.auth.forgot-password');
+        })->name('password.request');
+
+        // Rute untuk mengirim email reset password
+        Route::post('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword'])
+            ->middleware(['throttle:6,1'])
+            ->name('password.email');
+
+        // Rute untuk menampilkan halaman reset password
+        Route::get('/reset-password/{token}', function ($token) {
+            return view('pages.auth.reset', ['token' => $token]);
+        })->name('password.reset');
+
+        // Rute untuk melakukan reset password
+        Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword'])
+            ->name('password.update');
     });
 
     Route::middleware('auth')->group(function(){
@@ -67,6 +94,7 @@ Route::group(['domain'=>''],function(){
     Route::get('order/{id}/show', [OrderController::class, 'show'])->name('order.show');
     Route::put('order/{id}/cancel', [OrderController::Class, 'cancelOrder'])->name('order.cancel');
     Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('order/makeOrder/{id}', [OrderController::class, 'makeOrder'])->name('order.makeOrder');
 
     // Notification
     Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');

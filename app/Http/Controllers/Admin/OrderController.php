@@ -131,6 +131,14 @@ class OrderController extends Controller
         $userID = Order::where('order_number', $order->order_number)->first();
         $user = User::findOrFail($userID->user_id);
         $order->order_status = 'Completed';
+
+        // Mengurangi stok produk
+        foreach ($order->orderItems as $orderItem) {
+            $product = Product::findOrFail($orderItem->product_id);
+            $product->product_stock -= $orderItem->quantity;
+            $product->save();
+        }
+
         $notification = new Notification;
         $notification->user_id = $userID->user_id;
         $notification->message = $user->name.' order has been completed';

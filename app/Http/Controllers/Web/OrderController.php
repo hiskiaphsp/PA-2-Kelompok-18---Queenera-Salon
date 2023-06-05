@@ -70,6 +70,48 @@ class OrderController extends Controller
 
     }
 
+    public function makeOrder(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'payment_method'=> 'required',
+            'quantity' => 'required|int|min:1'
+        ]);
+
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // set karakter yang digunakan
+        $order_number = 'QS' . substr(str_shuffle($characters), 0, 10);
+
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->order_number = $order_number;
+        $order->order_amount = $product->product_price * $request->quantity;
+        $order->order_status = 'Pending';
+        $order->payment_method = $request->payment_method;
+        $order->save();
+
+        $orderItem = new OrderItem();
+        $orderItem->order_id = $order->id;
+        $orderItem->product_id = $product->id;
+        $orderItem->order_number = $order_number;
+        $orderItem->quantity = $request->quantity;
+        $orderItem->save();
+
+        $notification = new Notification;
+        $notification->user_id = 1;
+        $notification->message = 'Anda mendapatkan Pesanan!, Kode ' . $order->code;
+        $notification->type = 'success';
+        $notification->order_number = $order_number;
+        $notification->save();
+
+        // return redirect()->route('product.index')->with('success', 'Order has been placed successfully');
+        return response()->json([
+            'success' => true,
+            'redirectUrl' => route('product.index'),
+            'message' => 'Order has been placed successfully'
+        ]);
+    }
+
     public function checkout(Request $request)
     {
         // Ambil data dari keranjang belanja

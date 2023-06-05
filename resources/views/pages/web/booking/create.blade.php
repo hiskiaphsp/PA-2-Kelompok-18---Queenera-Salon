@@ -10,7 +10,6 @@
                 <div class="tpproduct col-lg-6 mt-60 mb-60">
                     <div class="tpform__wrapper ml-60 mt-60 mb-60 mr-60">
                         <h4 class="tpform__title">Booking Now</h4>
-                        <p>Your email address will not be published. Required fields are marked *</p>
                         <div class="tpform__box">
                             <form action="{{route('booking.store')}}" method="post" id="booking_form">
                                 @csrf
@@ -18,42 +17,77 @@
                                     <div class="col-lg-12">
                                         <label for="username" class="mx-2">Name<span class="text-danger">*</span> </label>
                                         <div class="tpform__input">
-                                            <input type="text" name="username" id="username" placeholder="Your Name">
+                                            <input class="@error('username')
+                                                    is-invalid
+                                                @enderror " type="text" name="username" id="username" placeholder="Your Name">
+                                            @error('username')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mt-20 mb-20">
                                         <label for="service_id" class="mx-2">Service<span class="text-danger">*</span> </label>
                                         <div class="ml-2  tpform__select">
-                                            <select name="service_id" id='service_id'>
+                                            <select name="service_id" class="@error('service_id')
+                                                    is-invalid
+                                                @enderror " id='service_id'>
                                                 <option value="" selected disabled>Please choose service</option>
                                                 @foreach ($service as $item)
                                                     <option value="{{$item->id}}">{{$item->service_name}}</option>
                                                 @endforeach
                                             </select>
+                                            @error('service_id')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <label for="phone_number" class="mx-2">Phone<span class="text-danger">*</span> </label>
                                         <div class="tpform__input mb-20">
-                                            <input type="number" placeholder="Phone" name="phone_number" id="phone_number">
+                                            <input class="@error('phone_number')
+                                                    is-invalid
+                                                @enderror " type="number" placeholder="Phone" name="phone_number" id="phone_number">
+                                            @error('phone_number')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-20">
                                         <div class="tpform__input">
                                         <label for="start_booking_date" class="mx-2">Start Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date" data-target-input="nearest">
-                                                <input id="start_booking_date" class="form-control datetimepicker-input digits" type="text" name="start_booking_date" data-target="#dt-enab-disab-date">
+                                                <input id="start_booking_date" class=" @error('start_booking_date')
+                                                    is-invalid
+                                                @enderror form-control datetimepicker-input digits" type="text" name="start_booking_date" data-target="#dt-enab-disab-date">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
+                                            @error('start_booking_date')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="tpform__input">
                                         <label for="end_booking_date" class="mx-2">End Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date-end" data-target-input="nearest">
-                                                <input class="form-control datetimepicker-input digits" type="text" name="end_booking_date" id="end_booking_date" data-target="#dt-enab-disab-date-end">
+                                                <input class="@error('end_booking_date')
+                                                    is-invalid
+                                                @enderror  form-control datetimepicker-input digits" type="text" name="end_booking_date" id="end_booking_date" data-target="#dt-enab-disab-date-end">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date-end" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
+                                            @error('end_booking_date')
+                                                <div class="invalid-feedback">
+                                                    {{$message}}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -67,7 +101,7 @@
                                             <a class="btn btn-outline-danger" href="{{url('booking')}}">Cancel</a>
                                         </div>
                                         <div class="">
-                                            <button class="btn btn-success rounded">Make Booking</button>
+                                            <button type="submit" class="btn btn-success rounded">Make Booking</button>
                                         </div>
                                     </div>
                                 </div>

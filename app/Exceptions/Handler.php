@@ -4,7 +4,11 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -21,7 +25,9 @@ class Handler extends ExceptionHandler
         if ($this->isHttpException($exception) && $exception->getStatusCode() == 404) {
         return response()->view('pages.error.404', [], 404);
         }
-
+        // if ($exception instanceof MethodNotAllowedHttpException || $exception instanceof NotFoundHttpException) {
+        //     return response()->view('pages.error.404', [], 404);
+        // }
         return parent::render($request, $exception);
     }
     protected $dontReport = [

@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="{{asset('web-assets/css/spacing.css')}}">
     <link rel="stylesheet" href="{{asset('web-assets/css/meanmenu.css')}}">
     <link rel="stylesheet" href="{{asset('web-assets/css/nice-select.css')}}">
-    {{-- <link rel="stylesheet" href="{{asset('web-assets/css/fontawesome.min.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('web-assets/css/fontawesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('web-assets/css/icon-dukamarket.css')}}">
     <link rel="stylesheet" href="{{asset('web-assets/css/main.css')}}">
     <script src="{{asset('assets/ajax/jquery.js')}}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{asset('css/sweetalert.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('css/toastify.css')}}" type="text/css" />
 
     @yield('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">

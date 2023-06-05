@@ -8,7 +8,7 @@
                     <div class="tpproduct__info bage">
                     </div>
                     <div class="tpproduct__shopping">
-                        <a data-product-id="{{ $product->id }}" class="add-to-cart tpproduct__shopping-wishlist" href=""><i class="icon-cart"></i></a>
+                        <a data-product-id="{{ $product->id }}" class="add-to-cart tpproduct__shopping-wishlist" href="#"><i class="icon-cart"></i></a>
                     </div>
                 </div>
                 <div class="tpproduct__content">

@@ -59,7 +59,6 @@ class BookingController extends Controller
             'phone_number'=>'required|numeric',
             'start_booking_date'=>'required',
             'end_booking_date'=>'required',
-            'payment_method'=>'required',
         ]);
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // set karakter yang digunakan
         $booking_code = 'QS-' . substr(str_shuffle($characters), 0, 6); // generate 6 karakter acak dari kombinasi karakter yang ditentukan

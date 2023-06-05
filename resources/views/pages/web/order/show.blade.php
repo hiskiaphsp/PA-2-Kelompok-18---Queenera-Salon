@@ -46,7 +46,7 @@
                                             <td>
                                                  @foreach($item->orderItems as $orderItem)
                                                         <p>{{ $orderItem->product->product_name }} - {{ $orderItem->product->product_price }} - {{$orderItem->quantity}} <p>
-                                                    @endforeach
+                                                @endforeach
                                             </td>
                                             <td>{{$item->order_amount}}</td>
                                             <td>{{$item->order_status}}</td>
