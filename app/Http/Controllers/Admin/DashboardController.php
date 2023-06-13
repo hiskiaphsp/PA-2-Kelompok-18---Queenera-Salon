@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Booking;
 use App\Models\User;
+use Carbon\Carbon;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -76,9 +78,27 @@ class DashboardController extends Controller
         $totalUser = User::count();
         $totalOrder = Order::count();
         $totalOrderComplete = Order::where('order_status', 'Completed')->count();
+        $totalBookingComplete = Booking::where('status', 'Completed')->count();
         $totalAmount = Order::where('order_status', 'Completed')->sum('order_amount');
 
-        return view('pages.admin.dashboard.main', compact('totalUser', 'totalOrder', 'totalOrderComplete', 'totalAmount', 'chartData', 'chartBookingData'));
+        $amounts = Order::where('order_status', 'Completed')
+            ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, SUM(order_amount) as total_amount')
+            ->groupBy('month', 'year')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        $amountData = [];
+
+        foreach ($amounts as $order) {
+            $monthYear = Carbon::createFromDate($order->year, $order->month)->format('F Y');
+            $amountData[] = [
+                'x' => $monthYear,
+                'y' => $order->total_amount,
+            ];
+        }
+
+        return view('pages.admin.dashboard.main', compact('totalUser', 'totalOrder', 'totalOrderComplete', 'totalAmount', 'chartData', 'chartBookingData', 'totalBookingComplete', 'amountData'));
     }
 }
 

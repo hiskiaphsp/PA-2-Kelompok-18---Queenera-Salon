@@ -75,9 +75,11 @@
                                                                     <li>
                                                                         <a class="dropdown-item" href="{{route('order.show', $item->id)}}">Show</a>
                                                                     </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="{{route('invoice.pdf', $item->id)}}">Download Pdf</a>
-                                                                    </li>
+                                                                    @if ($item->order_status == "Completed" || $item->order_status =="Accepted" || $item->order_status == "Paid")
+                                                                        <li>
+                                                                            <a class="dropdown-item" href="{{route('invoice.pdf', $item->id)}}">Download Pdf</a>
+                                                                        </li>
+                                                                    @endif
                                                                     {{-- @endif --}}
                                                                     @if ($item->order_status == "Pending")
                                                                         <a class="dropdown-item" href="{{ route('order.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-order-form-{{$item->id}}').submit();">Cancel</a>

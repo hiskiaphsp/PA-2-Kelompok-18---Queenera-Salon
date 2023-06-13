@@ -56,16 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 mt-20 mb-20">
-                                        <label for="payment_method" class="mx-2">Payment Method<span class="text-danger">*</span> </label>
-                                        <div class="ml-2  tpform__select">
-                                            <select name="payment_method" id='payment_method'>
-                                                <option value="" selected disabled>Please choose Payment Method</option>
-                                                <option value="Cash" {{ $booking->payment_method == 'Cash' ? 'selected' : '' }}>Cash</option>
-                                                <option value="Transfer" {{ $booking->payment_method == 'Transfer' ? 'selected' : '' }}>Transfer</option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="col-lg-12">
                                         <label for="booking_description" class="mx-2">Description (optional)</label>
                                         <div class="tpform__textarea">

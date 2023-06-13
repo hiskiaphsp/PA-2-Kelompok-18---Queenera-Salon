@@ -38,14 +38,14 @@
                                                 <td>{{$item->booking_code}}</td>
                                                 <td>{{$item->status}}</td>
                                                 <td>
-                                                    @if ( $item->status == 'Completed')
+                                                    @if ( $item->status == 'Completed' || $item->status == "Accepted")
                                                         <div class="dropdown-basic me-0">
                                                             <div class="btn-group dropstart">
                                                                 <a class="dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                                                 <ul class="dropdown-menu dropdown-block">
                                                                     <li>
 
-                                                                        @if (!$item->ratings)
+                                                                        @if (!$item->ratings && $item->status == "Completed")
                                                                         <a class="dropdown-item" data-bs-toggle="modal"data-bs-target="#myModal-{{$item->id}}">
                                                                             Rate
                                                                         </a>
@@ -61,27 +61,29 @@
                                                                             </a>
                                                                         @endif
                                                                     </li>
+
                                                                 </ul>
                                                             </div>
                                                         </div>
-
-                                                    @elseif (!$item->status == 'Cancelled')
-                                                        <div class="dropdown">
-                                                        <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="icon-settings"></i>
-                                                        </a>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="{{route('booking.edit', $item->id)}}">Edit</a></li>
-                                                            <li><a class="dropdown-item" href="{{ route('booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
-                                                                <form id="cancel-booking-form" action="{{ route('booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                    @method('PUT')
-                                                                    @csrf
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    @else
-                                                    No Action
+                                                    @endif
+                                                    @if ($item->status == "Pending")
+                                                        <div class="dropdown-basic me-0">
+                                                            <div class="btn-group dropstart">
+                                                                <a class="dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                                <ul class="dropdown-menu dropdown-block">
+                                                                    <li><a class="dropdown-item" href="{{route('booking.edit', $item->id)}}">Edit</a></li>
+                                                                    <li><a class="dropdown-item" href="{{ route('booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
+                                                                        <form id="cancel-booking-form" action="{{ route('booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
+                                                                            @method('PUT')
+                                                                            @csrf
+                                                                        </form>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    @if ( $item->status == "Rejected" || $item->status == "Cancelled")
+                                                        No Action
                                                     @endif
                                                 </td>
                                                     <div class="modal fade" id="myModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

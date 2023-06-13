@@ -15,8 +15,25 @@
             <div class="row size-column">
                 <div class="col-sm-12 ">
                     <div class="row">
-                        <div class="row">
-                            <div class="col-sm-3">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-4">
+                                <div class="card small-widget mb-sm-0">
+                                    <div class="card-body success"> <span class="f-light">Booking Complete</span>
+                                        <div class="d-flex align-items-end gap-1">
+                                            <h4>{{$totalBookingComplete}}</h4>
+                                            <span class="font-primary f-12 f-w-500">
+                                                {{-- <i class="icon-arrow-up"></i><span>+50%</span> --}}
+                                            </span>
+                                        </div>
+                                        <div class="bg-gradient">
+                                            <svg class="stroke-icon svg-fill">
+                                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-form') }}"></use>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="card small-widget mb-sm-0">
                                     <div class="card-body primary"> <span class="f-light">Orders Complete</span>
                                         <div class="d-flex align-items-end gap-1">
@@ -33,7 +50,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="card small-widget">
                                     <div class="card-body success"><span class="f-light">Total User</span>
                                         <div class="d-flex align-items-end gap-1">
@@ -50,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="card small-widget">
                                     <div class="card-body warning"><span class="f-light">Total Order</span>
                                         <div class="d-flex align-items-end gap-1">
@@ -67,7 +84,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="card small-widget">
                                     <div class="card-body secondary"><span class="f-light">Order Amount</span>
                                         <div class="d-flex align-items-end gap-1">
@@ -80,6 +97,16 @@
                                             </svg>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xl-12 box-col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Order Amount Chart </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-amount"></div>
                                 </div>
                             </div>
                         </div>
@@ -165,5 +192,27 @@
     var chart = new ApexCharts(document.querySelector('#chart-booking'), options);
     chart.render();
 </script>
+    <script>
+        var chartData = @json($amountData);
+
+        var options = {
+            chart: {
+                type: 'area',
+                height: 350,
+            },
+            series: [{
+                name: 'Total Amount',
+                data: chartData
+            }],
+            xaxis: {
+                type: 'category'
+            },
+            colors: ['#FFBCBC'],
+        };
+
+        var chart = new ApexCharts(document.querySelector('#chart-amount'), options);
+        chart.render();
+    </script>
+
     @endsection
 </x-admin-layout>

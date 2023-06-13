@@ -81,6 +81,8 @@
                                                                         @csrf
                                                                     </form>
                                                                 </li>
+                                                            @endif
+                                                            @if ($item->order_status == 'Accepted')
                                                                 <li>
                                                                     <a class="dropdown-item" href="{{ route('admin.order.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-order-form-{{$item->id}}').submit();">Cancel</a>
                                                                     <form id="cancel-order-form-{{$item->id}}" action="{{ route('admin.order.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
@@ -88,6 +90,7 @@
                                                                         @csrf
                                                                     </form>
                                                                 </li>
+
                                                             @endif
                                                             <li>
                                                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); confirmDeleteOrder({{ $item->id }});">Delete</a>

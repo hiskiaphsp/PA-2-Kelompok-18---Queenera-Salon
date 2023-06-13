@@ -124,7 +124,6 @@ class BookingController extends Controller
             'phone_number'=>'required|numeric',
             'start_booking_date'=>'required',
             'end_booking_date'=>'required',
-            'payment_method'=>'required',
         ]);
         $booking = Booking::find($id);
         $booking->username=$request->username;
@@ -132,7 +131,6 @@ class BookingController extends Controller
         $booking->phone_number = $request->phone_number;
         $booking->start_booking_date = Carbon::createFromFormat('m/d/Y h:i A',$request->start_booking_date);
         $booking->end_booking_date = Carbon::createFromFormat('m/d/Y h:i A',$request->end_booking_date);
-        $booking->payment_method = $request->payment_method;
         $booking->booking_description = $request->booking_description;
         $booking->save();
 

@@ -13,13 +13,14 @@
         @auth
             @if(auth()->user()->hasRole('admin'))
                 {{ route('admin.dashboard') }}
-            @else
+            @elseif(auth()->user()->hasRole('customer'))
                 {{ route('home') }}
+
             @endif
         @endauth
 
         @guest
-            {{ route('home') }}
+            {{ route('auth.login') }}
         @endguest
       ">BACK TO HOME PAGE</a></div>
     </div>

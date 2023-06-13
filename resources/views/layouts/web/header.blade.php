@@ -258,7 +258,8 @@
 
         <!-- sidebar-menu-area-end -->
     </header>
-    <script>
+    @section('script')
+            <script>
     $(document).ready(function(){
         function loadCart() {
             $.ajax({
@@ -306,5 +307,6 @@
         });
     });
     </script>
+    @endsection
 
 

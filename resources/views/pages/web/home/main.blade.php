@@ -87,7 +87,7 @@
                      </div>
                   </div>
                   <div class="row gx-3">
-                        <div class="row justify-content-center row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item" id="data-product">
+                        <div class="row justify-content-center row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item">
                             @include('pages.web.product.load')
                         </div>
                   </div>
@@ -193,78 +193,6 @@
             </div>
          </section>
          <!-- testimonial-area-end -->
-
-
       </main>
-    @section('script')
-    <script>
-        window.baseUrl = '{{ url('/') }}';
-    </script>
-    <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            function loadProducts() {
-                $.ajax({
-                    url: '{{ url("product/") }}?keyword=' + keyword ,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(products) {
-                        let html = '';
-                        $.each(products, function(index, product) {
-                            html += `
-                                <div class="col">
-                                    <div class="tpproduct p-relative mb-20">
-                                        <div class="tpproduct__thumb p-relative text-center">
-                                            <a class="aspect-ratio" href="#"><img src="${window.baseUrl}/images/${product.product_image}" alt="" class="img-fluid" style="height:200px"></a>
-                                            <div class="tpproduct__info bage">
-                                            </div>
-                                            <div class="tpproduct__shopping">
-                                                <a  data-product-id="${ product.id }" class="add-to-cart tpproduct__shopping-wishlist" href="#"><i class="icon-cart"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="white-bg tpproduct__content">
-                                            <span class=" tpproduct__content-weight">
-                                                <a href="#">Salon</a>
-                                                <a href="#"></a>
-                                            </span>
-                                            <h4 class="tpproduct__title">
-                                                <a href="shop-details-top-.html">${ product.product_name }</a>
-                                            </h4>
-                                            <div class="tpproduct__rating mb-5">
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                            </div>
-                                            <div class="tpproduct__price">
-                                                <span>${product.price_formatted}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        $('#data-product').html(html);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            }
-            loadProducts(); // memanggil fungsi loadProducts() secara otomatis
-
-            // fungsi untuk melakukan auto load setiap 5 detik
-            setInterval(function() {
-                loadProducts();
-            }, 5000);
-        });
-    </script>
-
-      @endsection
 </x-web-layout>

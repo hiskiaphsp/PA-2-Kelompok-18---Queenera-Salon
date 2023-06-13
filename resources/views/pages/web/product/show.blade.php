@@ -133,7 +133,7 @@
                                                                     <select name="payment_method" class="@error('payment_method')
                                                                     is-invalid
                                                                     @enderror" id='payment_method'>
-                                                                        <option selected disabled>Please Choose Rate</option>
+                                                                        <option selected value="" disabled>Please Choose Rate</option>
                                                                         <option value="Transfer">Transfer</option>
                                                                         <option value="Cash">Cash</option>
                                                                     </select>
@@ -303,26 +303,24 @@
     @section('script')
     <script>
         document.getElementById('buyButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah perilaku default tombol "Submit"
+            event.preventDefault(); // Prevent the default submit behavior
 
-            // Mendapatkan nilai dari select 'payment_method'
+            // Get the values of payment_method and quantity
             var paymentMethod = document.getElementById('payment_method').value;
             var quantity = document.getElementById('quantity').value;
 
-
-            if(quantity <= 0) {
-                // Menampilkan pesan kesalahan menggunakan Toastify
+            if (quantity <= 0) {
+                // Show an error toast using Toastify
                 Toastify({
-                    text: 'Product quantity must be greater than 0 ',
+                    text: 'Product quantity must be greater than 0',
                     duration: 3000,
                     gravity: 'top',
                     position: 'right',
                     backgroundColor: 'linear-gradient(to right, #FF0000, #FF5733)',
                     close: true,
                 }).showToast();
-            }
-            if (paymentMethod === '') {
-                // Menampilkan pesan kesalahan menggunakan Toastify
+            } else if (paymentMethod === '') {
+                // Show an error toast using Toastify
                 Toastify({
                     text: 'Please choose a payment method',
                     duration: 3000,
@@ -331,8 +329,7 @@
                     backgroundColor: 'linear-gradient(to right, #FF0000, #FF5733)',
                     close: true,
                 }).showToast();
-            }
-            else {
+            } else {
                 Swal.fire({
                     title: 'Confirmation',
                     text: 'Are you sure you want to buy this product?',
@@ -342,40 +339,51 @@
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Jika pengguna mengklik "Yes", kirim permintaan Ajax
+                        // If the user clicks "Yes", send an Ajax request
                         var xhr = new XMLHttpRequest();
                         xhr.open('POST', "{{ route('order.makeOrder', $product->id) }}", true);
-                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+
+                        // Add a check for the response status 401 (Unauthorized)
                         xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                var response = JSON.parse(xhr.responseText);
-                                if (response.success) {
-                                    // Menampilkan SweetAlert konfirmasi
-                                    Swal.fire({
-                                        title: 'Success',
-                                        text: 'Your order has been placed.',
-                                        icon: 'success'
-                                    }).then(() => {
-                                        window.location.href = response.redirectUrl; // Redirect ke halaman lain jika diperlukan
-                                    });
-                                } else {
-                                    // Menampilkan pesan kesalahan menggunakan Toastify
-                                    Toastify({
-                                        text: response.message,
-                                        duration: 3000,
-                                        gravity: 'top',
-                                        position: 'left',
-                                        backgroundColor: 'linear-gradient(to right, #FF0000, #FF5733)',
-                                    }).showToast();
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200) {
+                                    var response = JSON.parse(xhr.responseText);
+                                    if (response.success) {
+                                        Swal.fire({
+                                            title: 'Success',
+                                            text: 'Your order has been placed.',
+                                            icon: 'success'
+                                        }).then(() => {
+                                            window.location.href = response.redirectUrl; // Redirect to another page if needed
+                                        });
+                                    } else {
+                                        Toastify({
+                                            text: response.message,
+                                            duration: 3000,
+                                            gravity: 'top',
+                                            position: 'left',
+                                            backgroundColor: 'linear-gradient(to right, #FF0000, #FF5733)',
+                                        }).showToast();
+                                    }
+                                } else if (xhr.status === 403) {
+                                    // User is not logged in, redirect to the login page
+                                    window.location.href = "{{ route('auth.login') }}";
                                 }
                             }
                         };
+
                         var formData = new FormData(document.getElementById('buyForm'));
-                        xhr.send(new URLSearchParams(formData));
+                        var jsonData = {};
+                        formData.forEach(function(value, key) {
+                            jsonData[key] = value;
+                        });
+                        xhr.send(JSON.stringify(jsonData));
                     }
                 });
             }
         });
     </script>
+
     @endsection
 </x-web-layout>

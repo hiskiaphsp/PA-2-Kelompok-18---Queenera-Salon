@@ -68,19 +68,23 @@
                 '_token': '{{ csrf_token() }}'
             },
             success: function(response) {
-                // Menggunakan toaster ajax
-                    Toastify({
-                        text: response.message,
-                        duration: 3000,
-                        gravity: 'top',
-                        position: 'right',
-                        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
-                        progressBar: true, // Add progress bar
-                        close: true,
-                    }).showToast();
+                // Use Ajax toaster
+                Toastify({
+                    text: response.message,
+                    duration: 3000,
+                    gravity: 'top',
+                    position: 'right',
+                    backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
+                    progressBar: true, // Add progress bar
+                    close: true,
+                }).showToast();
             },
-            error: function(response) {
-                // Menampilkan pesan error menggunakan toaster ajax
+            error: function(xhr) {
+                if (xhr.status === 403) {
+                    // User is forbidden, redirect to the login page
+                    window.location.href = '{{ route('auth.login') }}';
+                } else {
+                    // Show error message using Ajax toaster
                     Toastify({
                         text: 'Something went wrong',
                         duration: 3000,
@@ -90,11 +94,14 @@
                         progressBar: true, // Add progress bar
                         close: true,
                     }).showToast();
+                }
             }
         });
     });
 
+
 </script>
+@auth
 <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('js/notif-user.js') }}"></script>
 <script>
@@ -166,4 +173,5 @@
         });
     });
 </script>
+@endauth
 @yield('script')
