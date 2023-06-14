@@ -5,15 +5,15 @@
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/date-time-picker.css')}}">
     @endsection
-    <section class="about-area tpabout__inner-bg pt-175 pb-170 mb-50" data-background="{{asset('web-assets/img/banner/about-bg-1.png')}}">
+    <section class="about-area tpabout__inner-bg pt-175 pb-170 mb-50" data-background="{{asset('web-assets/img/banner/service-bg.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="tpabout__inner text-center">
                     <h5 class="tpabout__inner-sub mb-15">Queenera Salon</h5>
                     <h3 class="tpabout__inner-title mb-35">Services</h3>
-                    <p>Over 25 years of experience, we have crafted thousands of strategic discovery process that <br> enables us to peel back the layers which enable us to understand, connect.</p>
-                    <div class="tpabout__inner-btn">
+
+                    <div class="btn btn-outline-danger">
                         <a href="#booking_form">Make Booking</a>
                     </div>
                     </div>
@@ -28,7 +28,6 @@
                     <div class="tpsection mb-35">
                     <h4 class="tpsection__sub-title">~ Queen Salon ~</h4>
                     <h4 class="tpsection__title">Our Service</h4>
-                    <p>The liber tempor cum soluta nobis eleifend option congue doming quod mazim.</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +95,6 @@
                 <div class="col-lg-6 col-md-6 order-1 order-md-2">
                     <div class="tpform__wrapper pt-120 pb-80 ml-60">
                         <h4 class="tpform__title">Booking Now</h4>
-                        <p>Your email address will not be published. Required fields are marked *</p>
                         <div class="tpform__box">
                             <form action="{{ route('booking.store') }}" method="post" id="booking_form">
                                 @csrf

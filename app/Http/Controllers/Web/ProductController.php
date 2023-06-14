@@ -26,13 +26,12 @@ class ProductController extends Controller
         $keyword_search = $request->input('keyword_search');
 
         if ($keyword_search) {
-            $products = Product::where('product_name', 'like', '%' . implode(' ', $keyword) . '%')
+            $products = Product::where('product_name', 'like', '%' . $keyword_search . '%')
                 ->latest()
                 ->paginate(9);
         } else {
             $products = Product::latest()->paginate(9);
         }
-
         if ($keyword) {
             $ratings = array_map('floatval', $keyword);
             $products = Product::whereHas('orderItem', function ($query) use ($ratings) {
@@ -40,12 +39,11 @@ class ProductController extends Controller
                     ->join('ratings', 'order_items.id', '=', 'ratings.order_item_id')
                     ->selectRaw('AVG(ratings.product_rate) as average_rate')
                     ->groupBy('product_id')
-                    ->havingRaw('FLOOR(average_rate) >= ?', [$ratings[0]]);
-                if (count($ratings) > 1) {
-                    for ($i = 1; $i < count($ratings); $i++) {
-                        $query->orHavingRaw('FLOOR(average_rate) = ?', [$ratings[$i]]);
-                    }
-                }
+                    ->having(function ($havingQuery) use ($ratings) {
+                        foreach ($ratings as $rating) {
+                            $havingQuery->orHavingRaw('FLOOR(average_rate) = ?', [$rating]);
+                        }
+                    });
             })->paginate(10);
         }
         return view('pages.web.product.main', compact('cart', 'products'));
