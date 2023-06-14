@@ -28,7 +28,7 @@
                                 <label class="form-label" for="validationCustom01">Username</label>
                                 <input class="form-control @error('username') is-invalid @enderror" id="validationCustom01" type="text" placeholder="Enter Username" value="{{ $booking->username }}" name="username">
                                 @error('username')
-                                    <div class="invalid-feedback text-danger">
+                                    <div class="invalid-feedback text-danger text-danger">
                                         {{ $message }}
                                     </div>
                                 @enderror
@@ -42,7 +42,7 @@
                                     @endforeach
                                 </select>
                                 @error('service_id')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback text-danger">
                                         {{ $message }}
                                     </div>
                                 @enderror
@@ -51,7 +51,7 @@
                                 <label class="col-form-label pt-0" for="phone_number">Phone Number</label>
                                 <input class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" type="text" placeholder="Enter Phone Number" name="phone_number" value="{{ $booking->phone_number }}">
                                 @error('phone_number')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback text-danger">
                                         {{ $message }}
                                     </div>
                                 @enderror
@@ -61,30 +61,30 @@
                                 <div class="input-group date" id="start_booking_date" data-target-input="nearest">
                                     <input class="form-control datetimepicker-input digits @error('start_booking_date') is-invalid @enderror" type="text" placeholder="Enter Start Booking Date" name="start_booking_date" data-target="#start_booking_date">
                                     <div class="input-group-text" data-target="#start_booking_date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
+                                    @error('start_booking_date')
+                                        <div class="invalid-feedback text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                                @error('start_booking_date')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                             <div class="mb-4">
                                 <label class="col-form-label pt-0" for="end_booking_date">End Booking Date</label>
                                 <div class="input-group date" id="end_booking_date" data-target-input="nearest">
                                     <input class="form-control datetimepicker-input digits @error('end_booking_date') is-invalid @enderror" type="text" placeholder="Enter End Booking Date" name="end_booking_date" data-target="#end_booking_date">
                                     <div class="input-group-text" data-target="#end_booking_date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
-                                </div>
                                 @error('end_booking_date')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback text-danger">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
                             </div>
                             <div class="mb-4">
                                 <label class="col-form-label pt-0" for="booking_description">Booking Description</label>
                                 <textarea id="text-box" name="booking_description" cols="10" rows="2">{{ $booking->booking_description }}</textarea>
                                 @error('booking_description')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback text-danger">
                                         {{ $message }}
                                     </div>
                                 @enderror

@@ -121,9 +121,17 @@ class BookingController extends Controller
         $request->validate([
             'username'=> 'required',
             'service_id'=>'required',
-            'phone_number'=>'required|numeric',
+            'phone_number'=>[
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (strlen($value) < 9) {
+                        $fail($attribute.' must be have at least 9 characters.');
+                    }
+                },
+            ],
             'start_booking_date'=>'required',
-            'end_booking_date'=>'required',
+            'end_booking_date'=>'required|after:start_booking_date',
         ]);
         $booking = Booking::find($id);
         $booking->username=$request->username;

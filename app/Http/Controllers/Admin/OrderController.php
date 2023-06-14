@@ -58,7 +58,7 @@ class OrderController extends Controller
 
     public function reject_order($id)
     {
-        $user = User::findOrFail($userID->user_id);
+        $order = Order::find($id);
         $userID = Order::where('order_number', $order->order_number)->first();
         $user = User::findOrFail($userID->user_id);
         $order->order_status = 'Rejected';

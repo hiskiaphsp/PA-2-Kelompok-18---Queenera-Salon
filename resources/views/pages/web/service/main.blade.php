@@ -125,7 +125,7 @@
                                     <div class="col-lg-12">
                                         <label for="phone_number" class="mx-2">Phone<span class="text-danger">*</span> </label>
                                         <div class="tpform__input mb-20">
-                                            <input type="number" placeholder="Phone" name="phone_number" id="phone_number" class="@error('phone_number') is-invalid @enderror">
+                                            <input type="text" placeholder="Phone" name="phone_number" id="phone_number" class="@error('phone_number') is-invalid @enderror">
                                         </div>
                                         @error('phone_number')
                                             <div class="text-danger">{{ $message }}</div>

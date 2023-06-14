@@ -173,5 +173,54 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function(){
+        function loadCart() {
+            $.ajax({
+                url: "{{ route('cart.load') }}",
+                type: "GET",
+                success: function(response) {
+                    $('#cart-products').html(response.cart_details);
+                    $('.tpcart__total-price .heilight-price').text(response.cart_subtotal);
+                    $('.tpcart__checkout .tpcart-btn').attr('href', "{{url('cart')}}");
+                    $('.tpcart__checkout .tpcheck-btn').attr('href', "{{ route('checkout') }}");
+                    $('.tpcart__checkout #checkout-form').attr('action', "{{ route('checkout') }}");
+                }
+            });
+        }
+        setInterval(function() {
+            loadCart();
+        }, 2000);
+        $(document).on('click', '.add-to-cart-btn', function(e){
+            e.preventDefault();
+            var product_id = $(this).data('product-id');
+            var quantity = $(this).data('quantity');
+            $.ajax({
+                url: "{{ url('product/add-to-cart') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: product_id,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    loadCart();
+                }
+            });
+        });
+        $(document).on('click', '.tpcart__del a', function(e){
+            e.preventDefault();
+            var product_id = $(this).data('product-id');
+            $.ajax({
+                url: "{{ url('cart/remove') }}?product_id="+product_id,
+                type: "GET",
+                success: function(response) {
+                    loadCart();
+                }
+            });
+        });
+    });
+</script>
 @endauth
+
 @yield('script')

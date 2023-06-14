@@ -133,7 +133,7 @@ class BookingController extends Controller
                 },
             ],
             'start_booking_date' => 'required',
-            'end_booking_date' => 'required',
+            'end_booking_date' => 'required|after:start_booking_date',
             'payment_method' => '',
             'status' => '',
             'booking_code' => '',

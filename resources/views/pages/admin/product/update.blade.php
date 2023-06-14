@@ -80,7 +80,7 @@
                             </div>
                             <div class="card-footer text-end">
                                 <button class="btn btn-primary" type="submit">Submit</button>
-                                <button class="btn btn-secondary">Cancel</button>
+                                <a href="{{route('admin.product.index')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

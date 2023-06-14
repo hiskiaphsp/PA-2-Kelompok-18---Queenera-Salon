@@ -20,6 +20,9 @@
                                         <div class="tpform__input">
                                             <input type="text" name="username" value="{{$booking->username}}" id="username" placeholder="Your Name">
                                         </div>
+                                        @error('username')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12 mt-20 mb-20">
                                         <label for="service_id" class="mx-2">Service<span class="text-danger">*</span> </label>
@@ -31,30 +34,42 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @error('service_id')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12">
                                         <label for="phone_number" class="mx-2">Phone<span class="text-danger">*</span> </label>
                                         <div class="tpform__input mb-20">
                                             <input type="text" placeholder="Phone" name="phone_number" value="{{$booking->phone_number}}" id="phone_number">
                                         </div>
+                                        @error('phone_number')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12 mb-20">
                                         <div class="tpform__input">
-                                        <label for="start_booking_date" class="mx-2">Start Time<span class="text-danger">*</span> </label>
+                                            <label for="start_booking_date" class="mx-2">Start Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date" data-target-input="nearest">
                                                 <input  onkeydown="return false" id="start_booking_date" class="form-control datetimepicker-input digits" type="text" name="start_booking_date" data-target="#dt-enab-disab-date">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        @error('start_booking_date')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="tpform__input">
-                                        <label for="end_booking_date" class="mx-2">End Time<span class="text-danger">*</span> </label>
+                                            <label for="end_booking_date" class="mx-2">End Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date-end" data-target-input="nearest">
                                                 <input onkeydown="return false" class="form-control datetimepicker-input digits" type="text" name="end_booking_date" id="end_booking_date" data-target="#dt-enab-disab-date-end">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date-end" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        @error('end_booking_date')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
 
                                     <div class="col-lg-12">

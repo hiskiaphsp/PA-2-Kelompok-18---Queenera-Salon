@@ -1,9 +1,4 @@
 <x-web-layout title="Product">
-    @section('css')
-        @csrf
-
-        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-    @endsection
     <main>
 
          <div class="breadcrumb__area grey-bg pt-5 pb-5">

@@ -21,7 +21,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->order_status = 'Cancelled';
         $order->save();
-        return redirect()->route('cart.index')->with('success', 'Successfully canceled order');
+        return redirect()->route('order.index')->with('success', 'Successfully canceled order');
     }
 
     public function show($id)

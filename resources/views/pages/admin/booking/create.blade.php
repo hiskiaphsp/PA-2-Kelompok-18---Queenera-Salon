@@ -112,7 +112,7 @@
                             </div>
                             <div class="card-footer text-end">
                                 <button class="btn btn-primary" type="submit">Submit</button>
-                                <button class="btn btn-secondary">Cancel</button>
+                                 <a class="btn btn-secondary" href="{{ route('admin.booking.index') }}">Cancel</a>
                             </div>
                         </form>
                     </div>

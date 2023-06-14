@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="tpcart__content">
-                            <span class="tpcart__content-title"><a href="shop-details.html">{{$item['name']}}</a>
+                            <span class="tpcart__content-title"><a href="#">{{$item['name']}}</a>
                             </span>
                             <div class="tpcart__cart-price">
                             <span class="quantity">{{$item['quantity']}}</span>

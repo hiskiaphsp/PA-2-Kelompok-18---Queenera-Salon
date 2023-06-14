@@ -64,7 +64,7 @@
                                                     <td>{{$item->order_amount}}</td>
                                                     <td>{{$item->order_status}}</td>
                                                     <td>{{$item->payment_method}}</td>
-                                                    <td>{{\Carbon\Carbon::parse($item->create_at)->format('d F Y, l \a\t H:i')}}</td>
+                                                    <td>{{\Carbon\Carbon::parse($item->created_at)->format('d F Y, l \a\t H:i')}}</td>
                                                     <td>
                                                         <div class="dropdown-basic me-0">
                                                             <div class="btn-group dropstart">
