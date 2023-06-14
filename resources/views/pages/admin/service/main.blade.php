@@ -36,9 +36,9 @@
                                     @foreach ($service as $item)
                                     <tr>
                                         <td> <img class="img-fluid table-avtar" src="{{ asset('images/'.$item->service_image) }}"alt="">{{$item->service_name}}</td>
-                                        <td>{{\Illuminate\Support\Str::limit(strip_tags($item->service_description), 400, '...')}}</td>
+                                        <td>{{\Illuminate\Support\Str::limit(strip_tags($item->service_description), 300, '...')}}</td>
                                         {{-- <td>{{$item->service_name}}</td> --}}
-                                        <td>{{$item->service_price}}</td>
+                                        <td>Rp. {{number_format($item->service_price)}}</td>
                                         <td>
                                             <ul class="action">
                                                 <li class="edit"> <a href="{{route('admin.service.edit', $item->id)}}"><i

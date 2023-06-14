@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('service_name');
             $table->string('service_image');
-            $table->string('service_description');
+            $table->longText('service_description')->nullable();
             $table->string('service_price');
             $table->timestamps();
         });

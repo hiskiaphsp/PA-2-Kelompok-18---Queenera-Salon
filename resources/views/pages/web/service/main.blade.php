@@ -137,7 +137,7 @@
                                         <div class="tpform__input">
                                             <label for="start_booking_date" class="mx-2">Start Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date" data-target-input="nearest">
-                                                <input id="start_booking_date" class="form-control datetimepicker-input digits @error('start_booking_date') is-invalid @enderror" type="text" name="start_booking_date" data-target="#dt-enab-disab-date">
+                                                <input  onkeydown="return false" id="start_booking_date" class="form-control datetimepicker-input digits @error('start_booking_date') is-invalid @enderror" type="text" name="start_booking_date" data-target="#dt-enab-disab-date">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                                         <div class="tpform__input">
                                             <label for="end_booking_date" class="mx-2">End Time<span class="text-danger">*</span> </label>
                                             <div class="input-group date" id="dt-enab-disab-date-end" data-target-input="nearest">
-                                                <input class="form-control datetimepicker-input digits @error('end_booking_date') is-invalid @enderror" type="text" name="end_booking_date" id="end_booking_date" data-target="#dt-enab-disab-date-end">
+                                                <input  onkeydown="return false" class="form-control datetimepicker-input digits @error('end_booking_date') is-invalid @enderror" type="text" name="end_booking_date" id="end_booking_date" data-target="#dt-enab-disab-date-end">
                                                 <div class="input-group-text" data-target="#dt-enab-disab-date-end" data-toggle="datetimepicker"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>

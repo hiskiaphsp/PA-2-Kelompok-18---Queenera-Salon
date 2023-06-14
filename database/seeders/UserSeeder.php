@@ -27,21 +27,21 @@ class UserSeeder extends Seeder
             'name' => 'Hiskia Parhusip',
             'email'=> 'hiskiaparhusip@gmail.com',
             'nohp'=> '627890782107',
-            'password'=> bcrypt('admin123')
+            'password'=> bcrypt('hiskia123')
         ],
         [
             'name' => 'Julianti Sitorus',
             'email' => 'juliantisitorus071@gmail.com',
             'nohp'=> '6283130196042',
             'password'=> bcrypt('julianti117')
-            
+
         ],
         [
             'name' => 'Dafne Simanjuntak',
             'email' => 'Dafnesimanjuntak@gmail.com',
             'nohp'=> '6283130706248',
             'password'=> bcrypt('dafne123')
-            
+
         ],
     );
 

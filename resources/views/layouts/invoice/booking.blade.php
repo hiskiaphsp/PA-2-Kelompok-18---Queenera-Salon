@@ -118,9 +118,8 @@
       </tr>
       <tr>
         <td>{{ $booking->service->service_name }}</td>
-        <td>{{ \Carbon\Carbon::parse($booking->start_booking_date)->format('d F Y') }}</td>
-        <td>{{ \Carbon\Carbon::parse($booking->end_booking_date)->format('d F Y') }}</td>
-
+        <td>{{ \Carbon\Carbon::parse($booking->start_booking_date)->format('d F Y H:i') }}</td>
+        <td>{{ \Carbon\Carbon::parse($booking->end_booking_date)->format('d F Y H:i') }}</td>
     </tr>
     <tr>
       <td colspan="2" class="total-paid">PRICE:</td>

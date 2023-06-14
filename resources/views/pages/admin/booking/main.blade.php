@@ -53,19 +53,20 @@
                                                         <ul class="dropdown-menu dropdown-block">
                                                         @if ($item->status == "Accepted")
                                                             <li>
-                                                                <a class="dropdown-item" href="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
-                                                                <form id="cancel-booking-form" action="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                    @method('PUT')
-                                                                    @csrf
-                                                                </form>
-                                                            </li>
-                                                            <li>
                                                                 <a class="dropdown-item" href="{{ route('admin.booking.complete', $item->id) }}" onclick="event.preventDefault(); document.getElementById('complete-booking-form').submit();">Complete</a>
                                                                 <form id="complete-booking-form" action="{{ route('admin.booking.complete',$item->id) }}" method="POST" style="display: none;">
                                                                     @method('PUT')
                                                                     @csrf
                                                                 </form>
                                                             </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
+                                                                <form id="cancel-booking-form" action="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
+                                                                    @method('PUT')
+                                                                    @csrf
+                                                                </form>
+                                                            </li>
+
                                                         @endif
                                                         @if ($item->status == "Pending")
                                                             <li>

@@ -54,7 +54,7 @@
                                 <ul class="tpdetails__brand">
                                     <li><a href="#">Queenera Salon</a> </li>
                                     <li>
-                                    {{$hasil}}
+                                    {{$hasil}}/5
 
                                     @for ($i = 1; $i <= $hasil; $i++)
                                         <i class="fa fa-star text-warning"></i>
@@ -212,7 +212,7 @@
                                                         </div>
                                                         <div class="tpreview__comment-star">
                                                             @for ($i = 1; $i <= $item->product_rate; $i++)
-                                                                <i class="icon-star_outline1"></i>
+                                                                <i class="fa fa-star text-warning"></i>
                                                             @endfor
                                                         </div>
                                                     </div>

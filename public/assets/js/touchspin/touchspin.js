@@ -2,7 +2,7 @@
   'use strict';
   var _currentSpinnerId = 0;
   function _scopedEventName(name, id) {
-    return name + '.touchspin_' + id; 
+    return name + '.touchspin_' + id;
   }
   function _scopeEventNames(names, id) {
     return $.map(names, function(name) {
@@ -27,7 +27,7 @@
     }
     var defaults = {
       min: 0,
-      max: 100,
+      max: 9999999,
       initval: '',
       replacementval: '',
       step: 1,
