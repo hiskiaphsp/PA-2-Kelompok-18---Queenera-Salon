@@ -74,7 +74,7 @@ Route::group(['domain'=>''],function(){
     Route::middleware('role:customer')->group(function(){
         // Cart
         Route::resource('cart', CartController::Class);
-        Route::get('load', [ProductController::class, 'loadCart']);
+        Route::get('load', [ProductController::class, 'loadCart'])->name('cart.load');
         Route::post('product/add-to-cart', [ProductController::Class, 'addToCart'])->name('product.addToCart');
         Route::post('/cart/remove', [ProductController::class, 'removeFromCart']);
 
@@ -96,6 +96,7 @@ Route::group(['domain'=>''],function(){
         // Notification
         Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
         Route::get('notification/counter', [NotificationController::class, 'counter'])->name('counter_notif');
+        Route::get('notification/read', [NotificationController::class, 'markRead'])->name('notification.markRead');
         Route::delete('notification/{id}/delete', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
 

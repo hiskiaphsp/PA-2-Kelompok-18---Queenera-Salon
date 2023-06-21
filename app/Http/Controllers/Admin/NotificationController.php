@@ -49,7 +49,6 @@ class NotificationController extends Controller
                         <li class="b-l-info border-4">
                             <p>' .$notification->message. ' ' .$notification->order_number. '<span class="font-info">' . $notification->created_at->diffForHumans() . '</span>
                             </p>
-                            <i class="icon-trash"></i>
                         </li>
                         <i class="icon-trash text-danger delete-notification" data-notification-id="' . $notification->id . '" onclick="deleteNotification(' . $notification->id . ')"></i>
                     </div>

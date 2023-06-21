@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="tp-blog-details__thumb">
+                        <div class="tp-blog-details__thumb text-center">
                             <img src="{{asset('images/'. $service->service_image)}}" alt="">
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                             <div class="postbox__comment-box d-flex">
                                             <div class="postbox__comment-info">
                                                 <div class="postbox__comment-avater mr-25">
-                                                    <img src="{{asset('web-assets/img/blog/comment-1.jpg')}}" alt="">
+                                                    <img src="{{ asset('assets/images/user/user.png') }}" alt="">
                                                 </div>
 
                                             </div>

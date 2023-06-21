@@ -208,7 +208,7 @@
                                     <div class="col-lg-12 mt-20 mb-20">
                                         <div class="cart-page-total d-flex justify-content-end">
 
-                                        <button id="pay-button" class="tp-btn tp-color-btn banner-animation" type="submit">Bayar</button>
+                                        <button id="pay-button" class="tp-btn tp-color-btn banner-animation" type="submit">Pay</button>
                                     </div>
                                 </div>
                             </div>

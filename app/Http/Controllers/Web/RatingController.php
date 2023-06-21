@@ -83,7 +83,7 @@ class RatingController extends Controller
         $rating->description = $validatedData['description'];
         $rating->update();
 
-        return redirect()->route('booking.index')->with('success', 'Successfully updated rate service');
+        return redirect()->route('order.index')->with('success', 'Successfully updated rate');
     }
 
     /**

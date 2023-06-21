@@ -51,28 +51,12 @@
                                             <td>{{$item->order_amount}}</td>
                                             <td>{{$item->order_status}}</td>
                                             <td>{{$item->payment_method}}</td>
-                                            <td>{{\Carbon\Carbon::parse($item->create_at)->format('d F Y, l \a\t H:i')}}</td>
+                                            <td>{{\Carbon\Carbon::parse($item->created_at)->format('d F Y, l \a\t H:i')}}</td>
                                             <td>
                                                 <div class="dropdown-basic me-0">
                                                     <div class="btn-group dropstart">
                                                         <a class="dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                                         <ul class="dropdown-menu dropdown-block">
-                                                            @if ($item->order_status == "Pending")
-                                                                <li>
-                                                                    <a class="dropdown-item" href="{{ route('admin.order.accept', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('accept-order-form-{{$item->id}}').submit();">Accept</a>
-                                                                    <form id="accept-order-form-{{$item->id}}" action="{{ route('admin.order.accept', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                        @method('PUT')
-                                                                        @csrf
-                                                                    </form>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="{{ route('admin.order.reject', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('reject-order-form-{{$item->id}}').submit();">Reject</a>
-                                                                    <form id="reject-order-form-{{$item->id}}" action="{{ route('admin.order.reject', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                        @method('PUT')
-                                                                        @csrf
-                                                                    </form>
-                                                                </li>
-                                                            @endif
                                                             @if ($item->order_status == 'Accepted' || $item->order_status == 'Paid')
                                                                 <li>
                                                                     <a class="dropdown-item" href="{{ route('admin.order.complete', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('complete-order-form-{{$item->id}}').submit();">Complete</a>
@@ -90,7 +74,6 @@
                                                                         @csrf
                                                                     </form>
                                                                 </li>
-
                                                             @endif
                                                             <li>
                                                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); confirmDeleteOrder({{ $item->id }});">Delete</a>

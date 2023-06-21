@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\OrderController;
-use App\Http\Controllers\Web\TransactionController;
+use App\Http\Controllers\Web\BookingController;
 
 
 /*

@@ -32,8 +32,8 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="col-form-label pt-0" for="product_code">SKU</label>
-                                <input class="form-control @error('product_code') is-invalid @enderror" id="product_code" type="text"placeholder="Enter SKU" name="product_code" value="{{$product->product_code}}">
+                                <label class="col-form-label pt-0" for="product_code">Product Code</label>
+                                <input class="form-control @error('product_code') is-invalid @enderror" id="product_code" type="text"placeholder="Enter Product Code" name="product_code" value="{{$product->product_code}}">
                                  @error('product_code')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -80,7 +80,7 @@
                             </div>
                             <div class="card-footer text-end">
                                 <button class="btn btn-primary" type="submit">Submit</button>
-                                <button class="btn btn-secondary">Cancel</button>
+                                <a href="{{route('admin.product.index')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

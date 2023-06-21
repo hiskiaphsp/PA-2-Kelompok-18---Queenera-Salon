@@ -136,62 +136,62 @@
         </div>
     @section('script')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.js"></script>
-<script>
-    var chartData = @json($chartData);
+    <script>
+        var chartData = @json($chartData);
 
-    var options = {
-        chart: {
-            type: 'bar',
-            height: 350,
-            stacked: false,
-        },
-        series: [
-            { name: 'Completed', data: [] },
-            { name: 'Cancelled/Rejected', data: [] },
-        ],
-        xaxis: {
-            categories: [],
-        },
-        colors: ['#B5EAEA', '#FFBCBC'],
-    };
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: false,
+            },
+            series: [
+                { name: 'Completed', data: [] },
+                { name: 'Cancelled/Rejected', data: [] },
+            ],
+            xaxis: {
+                categories: [],
+            },
+            colors: ['#B5EAEA', '#FFBCBC'],
+        };
 
-    chartData.forEach(function (data) {
-        options.xaxis.categories.push(data.month);
-        options.series[0].data.push(data.Completed);
-        options.series[1].data.push(data['Cancelled/Rejected']);
-    });
+        chartData.forEach(function (data) {
+            options.xaxis.categories.push(data.month);
+            options.series[0].data.push(data.Completed);
+            options.series[1].data.push(data['Cancelled/Rejected']);
+        });
 
-    var chart = new ApexCharts(document.querySelector('#chart'), options);
-    chart.render();
-</script>
-<script>
-    var chartBookingData = @json($chartBookingData);
+        var chart = new ApexCharts(document.querySelector('#chart'), options);
+        chart.render();
+    </script>
+    <script>
+        var chartBookingData = @json($chartBookingData);
 
-    var options = {
-        chart: {
-            type: 'bar',
-            height: 350,
-            stacked: false,
-        },
-        series: [
-            { name: 'Completed', data: [] },
-            { name: 'Cancelled/Rejected', data: [] },
-        ],
-        xaxis: {
-            categories: [],
-        },
-        colors: ['#B5EAEA', '#FFBCBC'],
-    };
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: false,
+            },
+            series: [
+                { name: 'Completed', data: [] },
+                { name: 'Cancelled/Rejected', data: [] },
+            ],
+            xaxis: {
+                categories: [],
+            },
+            colors: ['#B5EAEA', '#FFBCBC'],
+        };
 
-    chartBookingData.forEach(function (data) {
-        options.xaxis.categories.push(data.month);
-        options.series[0].data.push(data.Completed);
-        options.series[1].data.push(data['Cancelled/Rejected']);
-    });
+        chartBookingData.forEach(function (data) {
+            options.xaxis.categories.push(data.month);
+            options.series[0].data.push(data.Completed);
+            options.series[1].data.push(data['Cancelled/Rejected']);
+        });
 
-    var chart = new ApexCharts(document.querySelector('#chart-booking'), options);
-    chart.render();
-</script>
+        var chart = new ApexCharts(document.querySelector('#chart-booking'), options);
+        chart.render();
+    </script>
     <script>
         var chartData = @json($amountData);
 

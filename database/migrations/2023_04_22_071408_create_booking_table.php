@@ -22,7 +22,7 @@ return new class extends Migration
             $table->dateTime('start_booking_date');
             $table->dateTime('end_booking_date');
             $table->string('payment_method');
-            $table->enum('status', ['Accepted', 'Pending', 'Rejected', 'Cancelled', 'Completed'])->default('Pending');
+            $table->enum('status', ['Accepted', 'Cancelled', 'Completed', 'Unpaid', 'Paid'])->default('Accepted');
             $table->string('booking_code');
             $table->text('booking_description')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
