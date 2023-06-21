@@ -58,6 +58,11 @@ class AuthController extends Controller
                 'unique:users',
                 'numeric',
                 function ($attribute, $value, $fail) {
+                    if (!preg_match('/^62/', $value)) {
+                        $fail('Phone number must start with "62".');
+                    }
+                },
+                function ($attribute, $value, $fail) {
                     if (strlen($value) < 9) {
                         $fail($attribute.' must be have at least 9 characters.');
                     }

@@ -35,9 +35,9 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="col-form-label pt-0" for="product_code">SKU</label>
+                            <label class="col-form-label pt-0" for="product_code">Product Code</label>
                             <input class="form-control @error('product_code') is-invalid @enderror" id="product_code"
-                                type="text" placeholder="Enter SKU" name="product_code"
+                                type="text" placeholder="Enter Product Code" name="product_code"
                                 value="{{ old('product_code') }}">
                             @error('product_code')
                                 <div class="invalid-feedback">

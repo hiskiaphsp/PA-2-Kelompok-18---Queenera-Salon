@@ -102,6 +102,11 @@
 
 </script>
 @auth
+<script>
+    localStorage.setItem("route_counter_notif", "{{ route('counter_notif') }}");
+    localStorage.setItem("route_notification", "{{ route('notification.index') }}");
+    localStorage.setItem("route_notification_read", "{{ route('notification.markRead') }}");
+</script>
 <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('js/notif-user.js') }}"></script>
 <script>
@@ -138,10 +143,7 @@
     }
 </script>
 
-<script>
-    localStorage.setItem("route_counter_notif", "{{ route('counter_notif') }}");
-    localStorage.setItem("route_notification", "{{ route('notification.index') }}");
-</script>
+
 
 <script>
     $(document).ready(function() {

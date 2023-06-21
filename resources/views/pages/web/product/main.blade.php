@@ -118,9 +118,9 @@
                      <div class="tpshop__top ml-60">
                         <div class="tpshop__banner mb-30" data-background="{{asset('web-assets/img/banner/product-banner.jpg')}}">
                            <div class="tpshop__content text-center">
-                              <span>The Salad</span>
-                              <h4 class="tpshop__content-title mb-20">Fresh & Natural <br>Healthy Food Special Offer</h4>
-                              <p>Do not miss the current offers of us!</p>
+                              <span>The Salon</span>
+                              <h4 class="tpshop__content-title mb-20">Luxurious & Pampering <br>Beauty Services Special Offer</h4>
+                              <p>Indulge in our current special offers!</p>
                            </div>
                         </div>
                         <div class="product__filter-content mb-40">

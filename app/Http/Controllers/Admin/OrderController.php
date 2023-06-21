@@ -28,50 +28,6 @@ class OrderController extends Controller
         return view('pages.admin.order.main',compact('orders'));
     }
 
-    public function accept_order($id)
-    {
-        $order = Order::findOrFail($id);
-        $userID = Order::where('order_number', $order->order_number)->first();
-        $user = User::findOrFail($userID->user_id);
-        if($order->payment_method == 'Transfer'){
-            $order->order_status = 'Unpaid';
-            $order->save();
-            $notification = new Notification;
-            $notification->user_id = $userID->user_id;
-            $notification->message = $user->name.' order has been accepted';
-            $notification->type = 'success';
-            $notification->order_number = $order->order_number;
-            $notification->save();
-        }
-        if ($order->payment_method == "Cash") {
-            $order->order_status = 'Accepted';
-            $order->save();
-            $notification = new Notification;
-            $notification->user_id = $userID->user_id;
-            $notification->message = $user->name.' order has been accepted ' . $order->order_number;
-            $notification->type = 'success';
-            $notification->order_number = $order->order_number;
-            $notification->save();
-        }
-        return redirect()->route('admin.order.index')->with('success','Successfully updated status order');
-    }
-
-    public function reject_order($id)
-    {
-        $order = Order::find($id);
-        $userID = Order::where('order_number', $order->order_number)->first();
-        $user = User::findOrFail($userID->user_id);
-        $order->order_status = 'Rejected';
-        $order->save();
-        $notification = new Notification;
-        $notification->user_id = $userID->user_id;
-        $notification->message = $user->name.' order has been rejected';
-        $notification->type = 'success';
-        $notification->order_number = $order->order_number;
-        $notification->save();
-        return redirect()->route('admin.order.index')->with('success','Successfully updated status order');
-    }
-
     public function delete($id)
     {
         $order = Order::find($id);
@@ -150,7 +106,6 @@ class OrderController extends Controller
     }
     public function cancel_order($id)
     {
-
         $order = Order::find($id);
         $userID = Order::where('order_number', $order->order_number)->first();
         $user = User::findOrFail($userID->user_id);
@@ -159,7 +114,7 @@ class OrderController extends Controller
         // Mengurangi stok produk
         foreach ($order->orderItems as $orderItem) {
             $product = Product::findOrFail($orderItem->product_id);
-            $product->product_stock -= $orderItem->quantity;
+            $product->product_stock += $orderItem->quantity; // Tambahkan kembali kuantitas ke stok produk
             $product->save();
         }
 
@@ -170,8 +125,10 @@ class OrderController extends Controller
         $notification->order_number = $order->order_number;
         $notification->save();
         $order->save();
-        return redirect()->route('admin.order.index')->with('success','Successfully updated status order');
+
+        return redirect()->route('admin.order.index')->with('success', 'Successfully updated order status');
     }
+
 
     public function update(Request $request, $id)
     {

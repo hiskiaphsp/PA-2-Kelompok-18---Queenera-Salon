@@ -96,6 +96,7 @@ Route::group(['domain'=>''],function(){
         // Notification
         Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
         Route::get('notification/counter', [NotificationController::class, 'counter'])->name('counter_notif');
+        Route::get('notification/read', [NotificationController::class, 'markRead'])->name('notification.markRead');
         Route::delete('notification/{id}/delete', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
 

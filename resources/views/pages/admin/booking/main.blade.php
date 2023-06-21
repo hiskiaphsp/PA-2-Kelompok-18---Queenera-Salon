@@ -51,7 +51,7 @@
                                                     <div class="btn-group dropstart">
                                                         <a class="dropdown-toggle btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                                         <ul class="dropdown-menu dropdown-block">
-                                                        @if ($item->status == "Accepted")
+                                                        @if ($item->status == "Accepted" || $item->status =="Paid")
                                                             <li>
                                                                 <a class="dropdown-item" href="{{ route('admin.booking.complete', $item->id) }}" onclick="event.preventDefault(); document.getElementById('complete-booking-form').submit();">Complete</a>
                                                                 <form id="complete-booking-form" action="{{ route('admin.booking.complete',$item->id) }}" method="POST" style="display: none;">
@@ -59,30 +59,15 @@
                                                                     @csrf
                                                                 </form>
                                                             </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
-                                                                <form id="cancel-booking-form" action="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                    @method('PUT')
-                                                                    @csrf
-                                                                </form>
-                                                            </li>
-
-                                                        @endif
-                                                        @if ($item->status == "Pending")
-                                                            <li>
-                                                                <a class="dropdown-item" href="{{ route('admin.booking.accept', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('accept-booking-form').submit();">Accept</a>
-                                                                <form id="accept-booking-form" action="{{ route('admin.booking.accept', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                    @method('PUT')
-                                                                    @csrf
-                                                                </form>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="{{ route('admin.booking.reject', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('reject-booking-form').submit();">Reject</a>
-                                                                <form id="reject-booking-form" action="{{ route('admin.booking.reject', ['id' => $item->id]) }}" method="POST" style="display: none;">
-                                                                    @method('PUT')
-                                                                    @csrf
-                                                                </form>
-                                                            </li>
+                                                            @if($item->status == "Accepted" || $item->status == 'Unpaid')
+                                                                <li>
+                                                                    <a class="dropdown-item" href="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" onclick="event.preventDefault(); document.getElementById('cancel-booking-form').submit();">Cancel</a>
+                                                                    <form id="cancel-booking-form" action="{{ route('admin.booking.cancel', ['id' => $item->id]) }}" method="POST" style="display: none;">
+                                                                        @method('PUT')
+                                                                        @csrf
+                                                                    </form>
+                                                                </li>
+                                                            @endif
                                                         @endif
                                                         <li>
                                                             <a class="dropdown-item" href="{{ route('admin.booking.edit', $item->id) }}">Edit</a>

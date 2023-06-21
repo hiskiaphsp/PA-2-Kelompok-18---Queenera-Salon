@@ -48,8 +48,13 @@ class UserController extends Controller
                 'unique:users',
                 'numeric',
                 function ($attribute, $value, $fail) {
+                    if (!preg_match('/^62/', $value)) {
+                        $fail('Phone number must start with "62".');
+                    }
+                },
+                function ($attribute, $value, $fail) {
                     if (strlen($value) < 9) {
-                        $fail($attribute.' must be have at least 9 characters.');
+                        $fail('Phone number must be have at least 9 characters.');
                     }
                 },
             ],
@@ -98,7 +103,21 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'email' => 'required|email|unique:users,email,' . $user->id,
             'name' => ['required', 'min:8'],
-            'nohp' => ['required', 'unique:users,nohp,' . $user->id, 'min:10'],
+            'nohp' =>[
+                'required',
+                'unique:users',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^62/', $value)) {
+                        $fail('Phone number must start with "62".');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (strlen($value) < 9) {
+                        $fail('Phone number must be have at least 9 characters.');
+                    }
+                },
+            ],
             'password' => 'nullable|min:6'
         ]);
 

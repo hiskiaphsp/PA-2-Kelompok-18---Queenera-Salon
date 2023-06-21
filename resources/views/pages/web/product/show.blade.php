@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="product__details-stock mb-25">
                                             <ul>
-                                                <li>Availability: <i>54 Instock</i></li>
+                                                <li>Availability: <i>{{$product->product_stock}} Instock</i></li>
                                                 <li>Categories: <span>Queenera Salon Products</span></li>
                                             </ul>
                                         </div>

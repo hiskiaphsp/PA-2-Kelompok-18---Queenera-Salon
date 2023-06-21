@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Notification;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -17,13 +18,28 @@ class OrderController extends Controller
         $orders = Order::with('user')->get();
         return view('pages.web.order.main',compact('orders'));
     }
-    public function cancelOrder($id){
+    public function cancelOrder($id)
+    {
         $order = Order::find($id);
         $order->order_status = 'Cancelled';
+
+        // Mengembalikan stok produk
+        foreach ($order->orderItems as $orderItem) {
+            $product = Product::findOrFail($orderItem->product_id);
+            $product->product_stock += $orderItem->quantity;
+            $product->save();
+        }
+        $notification = new Notification;
+        $notification->user_id = 1;
+        $notification->message = $user->name.' cancelled the order';
+        $notification->type = 'success';
+        $notification->order_number = $order->order_number;
+        $notification->save();
         $order->save();
+        $order->save();
+
         return redirect()->route('order.index')->with('success', 'Successfully canceled order');
     }
-
     public function show($id)
     {
         $item = Order::with('orderItems')->find($id);
@@ -41,7 +57,7 @@ class OrderController extends Controller
 
             if($item->order_status == "Unpaid"){
                 // Set your Merchant Server Key
-                \Midtrans\Config::$serverKey = config('midtrans.server_key');
+                \Midtrans\Config::  $serverKey = config('midtrans.server_key');
                 // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
                 \Midtrans\Config::$isProduction = true;
                 // Set sanitization on (default)
@@ -124,7 +140,14 @@ class OrderController extends Controller
         ]);
         $order = new Order();
         $order->user_id = $userId;
-        $order->order_status = 'Pending'; // bisa diganti dengan status yang sesuai
+        if($request->payment_method == "Cash")
+        {
+            $order->order_status = 'Accepted';
+        }
+        if($request->payment_method == "Transfer")
+        {
+            $order->order_status = 'Unpaid';
+        }
         $order->order_amount = 0;
         $order->order_number = $order_number;
         $order->payment_method = $request->payment_method;
@@ -148,6 +171,8 @@ class OrderController extends Controller
                 continue;
             }
 
+            $product->product_stock -= $cartItem['quantity'];
+            $product->save();
             // Buat data order_item baru
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
@@ -171,89 +196,45 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        // dd($request->custom_field1);
-        $serverKey = config('midtrans.server_key');
-        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
-        if ($hashed == $request->signature_key) {
-            if ($request->transaction_status == 'settlement') {
-                $order = Order::where('order_number', $request->custom_field1)->first();
-                if ($order) {
-                    $order->update(['order_status' => 'Paid']);
-                    // Pesanan berhasil diperbarui dengan status "Paid"
-                    $notification = new Notification;
-                    $notification->user_id = 1;
-                    $notification->message = 'Pesanan dengan kode Kode ' . $order->order_number;
-                    $notification->type = 'info';
-                    $notification->order_number = $order->order_number;
-                    $notification->save();
-                    return redirect()->route('order.index')->with('success', 'Your order has been paid');
-                } else {
-                    return redirect()->route('order.index')->with('error', 'The payment encountered an error');
-                }
-            } elseif ($request->transaction_status == 'pending') {
-                $order = Order::where('order_number', $request->custom_field1)->first();
-                if ($order) {
-                    $order->update(['order_status' => 'Waiting']);
-                    // Pesanan berhasil diperbarui dengan status "Pending"
-                    $notification = new Notification;
-                    $notification->user_id = 1;
-                    $notification->message = 'Pesanan dengan kode ' . $order->order_number . ' sedang menunggu pembayaran';
-                    $notification->type = 'info';
-                    $notification->order_number = $order->order_number;
-                    $notification->save();
-                    return redirect()->route('order.index')->with('info', 'Your order is pending payment');
-                } else {
-                    return redirect()->route('order.index')->with('error', 'The payment encountered an error');
-                }
-            } elseif ($request->transaction_status == 'deny') {
-                $order = Order::where('order_number', $request->custom_field1)->first();
-                if ($order) {
-                    $order->update(['order_status' => 'Denied']);
-                    // Pesanan berhasil diperbarui dengan status "Denied"
-                    $notification = new Notification;
-                    $notification->user_id = 1;
-                    $notification->message = 'Pembayaran untuk pesanan dengan kode ' . $order->order_number . ' ditolak';
-                    $notification->type = 'error';
-                    $notification->order_number = $order->order_number;
-                    $notification->save();
-                    return redirect()->route('order.index')->with('error', 'Payment for your order has been denied');
-                } else {
-                    return redirect()->route('order.index')->with('error', 'The payment encountered an error');
-                }
-            } elseif ($request->transaction_status == 'expire') {
-                $order = Order::where('order_number', $request->custom_field1)->first();
-                if ($order) {
-                    $order->update(['order_status' => 'Expired']);
-                    // Pesanan berhasil diperbarui dengan status "Expired"
-                    $notification = new Notification;
-                    $notification->user_id = 1;
-                    $notification->message = 'Pembayaran untuk pesanan dengan kode ' . $order->order_number . ' telah kedaluwarsa';
-                    $notification->type = 'error';
-                    $notification->order_number = $order->order_number;
-                    $notification->save();
-                    return redirect()->route('order.index')->with('error', 'Payment for your order has expired');
-                } else {
-                    return redirect()->route('order.index')->with('error', 'The payment encountered an error');
-                }
-            } elseif ($request->transaction_status == 'cancel') {
-                $order = Order::where('order_number', $request->custom_field1)->first();
-                if ($order) {
-                    $order->update(['order_status' => 'Canceled']);
-                    // Pesanan berhasil diperbarui dengan status "Canceled"
-                    $notification = new Notification;
-                    $notification->user_id = 1;
-                    $notification->message = 'Pesanan dengan kode ' . $order->order_number . ' telah dibatalkan';
-                    $notification->type = 'error';
-                    $notification->order_number = $order->order_number;
-                    $notification->save();
-                    return redirect()->route('order.index')->with('error', 'Your order has been canceled');
-                } else {
-                    return redirect()->route('order.index')->with('error', 'The payment encountered an error');
-                }
-            } else {
-                // Tambahkan logika untuk penanganan status transaksi lainnya di sini
-            }
+        if ($request->has('custom_field1')) {
+            $isOrder = strpos($request->custom_field1, 'QS') !== false;
 
+            $serverKey = config('midtrans.server_key');
+            $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+
+            if ($hashed == $request->signature_key) {
+                if ($request->transaction_status == 'settlement') {
+                    if ($isOrder) {
+                        $order = Order::where('order_number', $request->custom_field1)->first();
+                        if ($order) {
+                            $order->update(['order_status' => 'Paid']);
+                            $notification = new Notification;
+                            $notification->user_id = 1;
+                            $notification->message = 'The order has paid!';
+                            $notification->type = 'info';
+                            $notification->order_number = $order->order_number;
+                            $notification->save();
+                            return redirect()->route('order.index')->with('success', 'Your order has been paid');
+                        } else {
+                            return redirect()->route('order.index')->with('error', 'The payment encountered an error');
+                        }
+                    } else {
+                        $booking = Booking::where('booking_code', $request->custom_field1)->first();
+                        if ($booking) {
+                            $booking->update(['status' => 'Paid']);
+                            $notification = new Notification;
+                            $notification->user_id = 1;
+                            $notification->message = 'The booking has paid!';
+                            $notification->type = 'info';
+                            $notification->order_number = $booking->booking_code;
+                            $notification->save();
+                            return redirect()->route('booking.index')->with('success', 'Your booking has been paid');
+                        } else {
+                            return redirect()->route('booking.index')->with('error', 'The payment encountered an error');
+                        }
+                    }
+                }
+            }
         }
     }
 

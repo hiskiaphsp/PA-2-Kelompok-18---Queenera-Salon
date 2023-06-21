@@ -28,7 +28,12 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
         $userID = Booking::where('booking_code', $booking->booking_code)->first();
         $user = User::findOrFail($userID->user_id);
-        $booking->status = 'Accepted';
+        if ($booking->payment_method == "Transfer") {
+            $booking->status = "Unpaid";
+        }
+        if ($booking->payment_method == "Cash") {
+            $booking->status = "Accepted";
+        }
         $booking->save();
 
         $notification = new Notification;
@@ -38,23 +43,6 @@ class BookingController extends Controller
         $notification->order_number = $booking->booking_code;
         $notification->save();
 
-
-        return redirect()->route('admin.booking.index')->with('success','Successfully updated status booking');
-    }
-
-    public function reject_booking($id)
-    {
-        $booking = Booking::findOrFail($id);
-        $userID = Booking::where('booking_code', $booking->booking_code)->first();
-        $user = User::findOrFail($userID->user_id);
-        $booking->status = 'Rejected';
-        $booking->save();
-        $notification = new Notification;
-        $notification->user_id = $userID->user_id;
-        $notification->message = $user->name.' your booking accepted by Admin';
-        $notification->type = 'info';
-        $notification->order_number = $booking->booking_code;
-        $notification->save();
 
         return redirect()->route('admin.booking.index')->with('success','Successfully updated status booking');
     }
@@ -83,20 +71,54 @@ class BookingController extends Controller
                 'required',
                 'numeric',
                 function ($attribute, $value, $fail) {
-                    if (strlen($value) < 9) {
-                        $fail($attribute.' must be have at least 9 characters.');
+                    if (!preg_match('/^62/', $value)) {
+                        $fail('Phone number must start with "62".');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (strlen($value) < 11) {
+                        $fail('Phone number must have at least 11 characters.');
                     }
                 },
             ],
-            'start_booking_date' => 'required',
-            'end_booking_date' => 'required|after:start_booking_date',
+            'start_booking_date' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $startBooking = Carbon::createFromFormat('m/d/Y h:i A', $value);
+
+                    $existingBooking = Booking::where('start_booking_date', '<=', $startBooking)
+                        ->where('end_booking_date', '>', $startBooking)
+                        ->where('status', 'Accepted')
+                        ->first();
+
+                    if ($existingBooking) {
+                        $fail('The selected start booking date conflicts with an existing booking.');
+                    }
+                },
+            ],
+            'end_booking_date' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $endBooking = Carbon::createFromFormat('m/d/Y h:i A', $value);
+
+                    $existingBooking = Booking::where('start_booking_date', '<', $endBooking)
+                        ->where('end_booking_date', '>=', $endBooking)
+                        ->where('status', 'Accepted')
+                        ->first();
+
+                    if ($existingBooking) {
+                        $fail('The selected end booking date conflicts with an existing booking.');
+                    }
+                },
+                'after:start_booking_date',
+            ],
             'payment_method' => '',
             'status' => '',
             'booking_code' => '',
             'booking_description' => '',
         ]);
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // set karakter yang digunakan
-        $booking_code = 'QS-' . substr(str_shuffle($characters), 0, 6); // generate 6 karakter acak dari kombinasi karakter yang ditentukan
+        $booking_code = 'BK-' . substr(str_shuffle($characters), 0, 6); // generate 6 karakter acak dari kombinasi karakter yang ditentukan
 
         $validatedData['user_id'] = Auth::id();
         $validatedData['booking_code'] = $booking_code;
@@ -127,13 +149,48 @@ class BookingController extends Controller
                 'required',
                 'numeric',
                 function ($attribute, $value, $fail) {
-                    if (strlen($value) < 9) {
-                        $fail($attribute.' must be have at least 9 characters.');
+                    if (!preg_match('/^62/', $value)) {
+                        $fail('Phone number must start with "62".');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (strlen($value) < 11) {
+                        $fail('Phone number must have at least 11 characters.');
                     }
                 },
             ],
-            'start_booking_date' => 'required',
-            'end_booking_date' => 'required|after:start_booking_date',
+            'start_booking_date' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $startBooking = Carbon::createFromFormat('m/d/Y h:i A', $value);
+
+                    $existingBooking = Booking::where('start_booking_date', '<=', $startBooking)
+                        ->where('end_booking_date', '>', $startBooking)
+                        ->where('status', 'Accepted')
+                        ->first();
+
+                    if ($existingBooking) {
+                        $fail('The selected start booking date conflicts with an existing booking.');
+                    }
+                },
+            ],
+            'end_booking_date' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $endBooking = Carbon::createFromFormat('m/d/Y h:i A', $value);
+
+                    $existingBooking = Booking::where('start_booking_date', '<', $endBooking)
+                        ->where('end_booking_date', '>=', $endBooking)
+                        ->where('status', 'Accepted')
+                        ->first();
+
+                    if ($existingBooking) {
+                        $fail('The selected end booking date conflicts with an existing booking.');
+                    }
+                },
+                'after:start_booking_date',
+
+            ],
             'payment_method' => '',
             'status' => '',
             'booking_code' => '',

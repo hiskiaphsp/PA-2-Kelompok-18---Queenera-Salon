@@ -26,8 +26,6 @@ Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function
 
     // Booking
     Route::resource('booking', BookingController::class);
-    Route::put('booking/{id}/accept', [BookingController::Class, 'accept_booking'])->name('booking.accept');
-    Route::put('booking/{id}/reject', [BookingController::Class, 'reject_booking'])->name('booking.reject');
     Route::put('booking/{id}/complete', [BookingController::Class, 'complete_booking'])->name('booking.complete');
     Route::put('booking/{id}/cancel', [BookingController::Class, 'cancel_booking'])->name('booking.cancel');
     Route::delete('booking/{id}/delete', [BookingController::Class, 'delete'])->name('booking.delete');
@@ -45,8 +43,6 @@ Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function
     // Order
     Route::resource('order', OrderController::class);
     Route::put('order/{id}/complete', [OrderController::Class, 'complete_order'])->name('order.complete');
-    Route::put('order/{id}/accept', [OrderController::Class, 'accept_order'])->name('order.accept');
-    Route::put('order/{id}/reject', [OrderController::Class, 'reject_order'])->name('order.reject');
     Route::put('order/{id}/cancel', [OrderController::Class, 'cancel_order'])->name('order.cancel');
     Route::delete('order/{id}/delete', [OrderController::Class, 'delete'])->name('order.delete');
 
